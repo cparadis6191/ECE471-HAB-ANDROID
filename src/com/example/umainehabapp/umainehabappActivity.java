@@ -23,4 +23,3 @@ public class umainehabappActivity extends Activity {
     }
 }
 
-//test string Ian LaForge

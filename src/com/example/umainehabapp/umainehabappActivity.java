@@ -23,4 +23,4 @@ public class umainehabappActivity extends Activity {
     }
 }
 
-//test string Ian LaForge
+//test string Ian LaForge is an idiot

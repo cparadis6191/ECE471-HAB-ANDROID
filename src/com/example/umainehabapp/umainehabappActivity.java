@@ -22,8 +22,3 @@ public class umainehabappActivity extends Activity {
         });
     }
 }
-
-//<<<<<<< HEAD
-//=======
-//test string Ian LaForge is an idiot
-//>>>>>>> b3a7c35544b64f42f1a8ace147f986cff73c8eb4

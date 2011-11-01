@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, umainehabappActivity!</string>
+	
+	<!-- General project strings -->
     <string name="app_name">umainehabapp</string>
-    <string name="ascentratehint">Target Ascent Rate</string>
-    <string name="burstaltitudehint">Target Burst Altitude</string>
-    <string name="payloadweighthint">Payload Weight</string>
+    
+    <!-- Strings for helium activity -->
+    <string name="hintascentrate">Target Ascent Rate</string>
+    <string name="hintburstaltitude">Target Burst Altitude</string>
+    <string name="hintpayloadweight">Payload Weight</string>
+    
+    <!-- Strings for mapping activity -->
+    
 
 </resources>

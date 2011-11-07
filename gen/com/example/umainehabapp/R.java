@@ -21,15 +21,16 @@ public final class R {
         public static final int menubackground=0x7f020002;
     }
     public static final class id {
-        public static final int BalloonType=0x7f060003;
+        public static final int AscentRate=0x7f060006;
+        public static final int BalloonType=0x7f060002;
+        public static final int BurstAltitude=0x7f060003;
         public static final int RelativeLayout1=0x7f060000;
-        public static final int btnhelium=0x7f060008;
-        public static final int editText2=0x7f060006;
-        public static final int editTextascentrate=0x7f060005;
-        public static final int editTextballoontype=0x7f060004;
-        public static final int editTextpayloadweight=0x7f060002;
-        public static final int relativeLayoutMain=0x7f060007;
-        public static final int spinnerBalloonType=0x7f060001;
+        public static final int btnhelium=0x7f060009;
+        public static final int calculate=0x7f060007;
+        public static final int editTextballoontype=0x7f060005;
+        public static final int payloadweight=0x7f060001;
+        public static final int relativeLayoutMain=0x7f060008;
+        public static final int spinnerBalloonType=0x7f060004;
     }
     public static final class layout {
         public static final int helium=0x7f030000;
@@ -44,6 +45,7 @@ public final class R {
          */
         public static final int hintascentrate=0x7f040001;
         public static final int hintburstaltitude=0x7f040002;
+        public static final int hintbutton=0x7f040005;
         public static final int hintpayloadweight=0x7f040003;
     }
 }

@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, umainehabappActivity!</string>
+	
+	<!-- General project strings -->
     <string name="app_name">umainehabapp</string>
-
+    
+    <!-- Strings for helium activity -->
+    <string name="hintascentrate">Target Ascent Rate</string>
+    <string name="hintburstaltitude">Target Burst Altitude</string>
+    <string name="hintpayloadweight">Payload Weight</string>
+    
+    <!-- Strings for mapping activity -->
+    <string-array name="helium_spinner">
+        <item>Kaymont(200)</item>
+        <item>Kaymont(300)</item>
+        <item>Kaymont(350)</item>
+        <item>Kaymont(450)</item>
+        <item>Kaymont(500)</item>
+        <item>Kaymont(600)</item>        
+        <item>Kaymont(700)</item>
+        <item>Kaymont(800)</item>         
+        <item>Kaymont(1000)</item>
+        <item>Kaymont(1200)</item>
+        <item>Kaymont(1500)</item>
+        <item>Kaymont(2000)</item>      
+        <item>Kaymont(3000)</item>   
+        </string-array>
+    <string name="balloon_type">What type of Balloon?</string>
+    
 </resources>

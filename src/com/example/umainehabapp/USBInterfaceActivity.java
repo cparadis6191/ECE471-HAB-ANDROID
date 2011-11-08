@@ -23,7 +23,7 @@ public class USBInterfaceActivity extends umainehabappActivity { //class to inte
 	}
 	
 	
-	private static final String ACTION_USB_PERMISSION = //code to receive permission to communicate with USB device
+/*	private static final String ACTION_USB_PERMISSION = //code to receive permission to communicate with USB device
 		    "com.android.example.USB_PERMISSION"; //taken from http://developer.android.com/guide/topics/usb/host.html
 		private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
 
@@ -44,5 +44,5 @@ public class USBInterfaceActivity extends umainehabappActivity { //class to inte
 		            }
 		        }
 		    }
-		};
+		}; */
 }

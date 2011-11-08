@@ -45,7 +45,6 @@ public final class R {
          */
         public static final int hintascentrate=0x7f040001;
         public static final int hintburstaltitude=0x7f040002;
-        public static final int hintbutton=0x7f040005;
         public static final int hintpayloadweight=0x7f040003;
     }
 }

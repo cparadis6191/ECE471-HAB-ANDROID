@@ -20,5 +20,13 @@ public class umainehabappActivity extends Activity {
         		startActivity(intenthelium);
         	}
         });
+        
+        final Button btnPath = (Button) findViewById(R.id.btnpath);
+        btnPath.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+				Intent topathing = new Intent(umainehabappActivity.this, pathing.class);
+				startActivity(topathing);
+			}
+		});
     }
 }

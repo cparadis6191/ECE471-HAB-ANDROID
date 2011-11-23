@@ -6,19 +6,25 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
+
 
 public class heliumActivity extends Activity implements /*View.OnClickListener,*/ OnKeyListener {
+	
+	private pathingDatabase mDbHelper; //creates a database helper object to be used in accessing the database
+
 	 /** Called when the activity is first created. */
-    double gasdensity=.1786;
-    double airdensity=1.205;
-    double densitymodel=7238.3;
-    double launchdiameter,balloonweight,freelift,ballooncd,acentrate,burstheight,burstvolume,launchvolume,grosslift;
+    final static double gasdensity = .1786; //I made these static Ian, because... well... they should be
+    final static double airdensity = 1.205;
+    final static double densitymodel = 7238.3;
+    
+    double launchdiameter, balloonweight, freelift, ballooncd, acentrate, burstheight, burstvolume, launchvolume, grosslift;
     double payload;
+    
     private Button calculate;
 	private EditText payloadtext,burst,ascent;
     @Override
@@ -75,8 +81,6 @@ public class heliumActivity extends Activity implements /*View.OnClickListener,*
 	        case 12:
 	        case 13:
 	    	}
-	    	
-    	
     }
 
 		@Override
@@ -95,19 +99,9 @@ public class heliumActivity extends Activity implements /*View.OnClickListener,*
 	//	}	
 //	}
 
-
-
-
-
-
-
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
-
-
 }

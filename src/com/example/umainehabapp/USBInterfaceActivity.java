@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
-import android.util.Log;
 
 public class USBInterfaceActivity extends umainehabappActivity { //class to interface with USB device
 	//specific model numbers for connected devices will have to be programmed in manually it seems

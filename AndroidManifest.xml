@@ -23,6 +23,7 @@
 		<activity android:name=".heliumActivity" android:label="heliumActivity"></activity>
         <activity android:name=".pathing" android:label="pathing"></activity>
         <activity android:name=".map" android:label="map"></activity>
+        <activity android:name=".pathingDatabase" android:label="pathingDatabase"></activity>
     </application>
 
 </manifest>

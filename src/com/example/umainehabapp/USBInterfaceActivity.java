@@ -1,10 +1,8 @@
-package com.example.umainehabapp;
+/*package com.example.umainehabapp;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 
 public class USBInterfaceActivity extends umainehabappActivity { //class to interface with USB device
@@ -46,4 +44,4 @@ public class USBInterfaceActivity extends umainehabappActivity { //class to inte
 		        }
 		    }
 		};
-}
+}*/

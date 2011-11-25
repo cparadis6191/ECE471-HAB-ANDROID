@@ -11,39 +11,54 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
-public class heliumActivity extends Activity implements /*View.OnClickListener,*/ OnKeyListener {
+public class heliumActivity extends Activity implements View.OnClickListener, OnKeyListener {
 	
 	private pathingDatabase mDbHelper; //creates a database helper object to be used in accessing the database
 
 	 /** Called when the activity is first created. */
-    final static double gasdensity = .1786; //I made these static Ian, because... well... they should be
+    final static double gasdensity = .1786; 
     final static double airdensity = 1.205;
     final static double densitymodel = 7238.3;
-    
-    double launchdiameter, balloonweight, freelift, ballooncd, acentrate, burstheight, burstvolume, launchvolume, grosslift;
-    double payload;
-    
+    int selection;
+    String launchdiameter;
+
+	double balloonweight, freeliftkg,freeliftn, ballooncd, acentrate, burstheight, burstvolume, grosslift,balloonsize,area;
+    double launchvolumenum,payloadnum,launchdiameternum;
+	String launchvolume;
+    String payload;
+    double[] cdarray = {.25, .25, .25, .25, .25, .3, .3, .3, .3, .25, .25, .25, .25};
+    double[] burstdiameterarray = new double [13];
+    double[] balloonsizearray = {200,300,350,450,500,600,700,800,1000,1200,1500,2000,3000};
+    double[] launchdiameterarray = {1.18872, 1.24968, 1.28016, 1.34112, 1.3716, 1.43256, 1.49352, 1.52400, 1.58496, 1.8288, 1.88976, 1.9812, 2.16408};
     private Button calculate;
-	private EditText payloadtext,burst,ascent;
-    @Override
+	private EditText payloadtext,diameter;
+    private TextView necklift,Ascentrate,Burstheight;
+	
+	
+	
+	
+	
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.helium);
         payloadtext= (EditText) findViewById(R.id.payloadweight);
-        burst= (EditText) findViewById(R.id.BurstAltitude);
-        ascent= (EditText) findViewById(R.id.AscentRate);
-        calculate = (Button) findViewById(R.id.calculate);
-        
- //       calculate.setOnClickListener(this);
+        diameter= (EditText) findViewById(R.id.BalloonDiameter);
+        calculate = (Button) findViewById(R.id.HeliumCalc);
+        necklift = (TextView) findViewById(R.id.necklift);
+        Ascentrate= (TextView) findViewById(R.id.ascentrate);
+        Burstheight= (TextView) findViewById(R.id.burst);
+        calculate.setOnClickListener(this);
         payloadtext.setOnKeyListener(this);
-        burst.setOnKeyListener(this);
-        ascent.setOnKeyListener(this);
+        diameter.setOnKeyListener(this);
+
         
         
         
-        final Spinner spinner = (Spinner) findViewById(R.id.spinnerBalloonType);
+        final Spinner spinner = (Spinner) findViewById(R.id.heliumspinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
         		this, R.array.helium_spinner, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -56,31 +71,7 @@ public class heliumActivity extends Activity implements /*View.OnClickListener,*
     	        
 	    		View view, int pos, long id) {
 			
-	    	switch (parent.getSelectedItemPosition()) {
-	    	case 0:
-
-	    		balloonweight=200;
-	    		launchdiameter=1.18872;
-	    		launchvolume=(4/3)*Math.PI*Math.pow(launchdiameter/2,3);
-	    		grosslift=launchvolume*(airdensity-gasdensity);
-
-	        	break;
-	        case 1:
-
-	        	break;
-	        case 2:
-	        case 3:
-	        case 4:
-	        case 5:
-	        case 6:
-	        case 7:
-	        case 8:	
-	        case 9:
-	        case 10:
-	        case 11:
-	        case 12:
-	        case 13:
-	    	}
+    	selection=parent.getSelectedItemPosition();
     }
 
 		@Override
@@ -90,14 +81,31 @@ public class heliumActivity extends Activity implements /*View.OnClickListener,*
 		}
     }
 
-	//@Override
-	//public void onClick(View v) {
+	@Override
+public void onClick(View v) {
 
-		
-	//	if(v == this.calculate){
-	//		payload=this.addItem(this.payloadtext.getText().toString());
-	//	}	
-//	}
+		if(v == this.calculate){
+			launchdiameter=diameter.getText().toString();
+			payload=payloadtext.getText().toString();
+			payloadnum=Double.parseDouble(payload);
+			launchdiameternum= Double.parseDouble(launchdiameter);
+			launchvolumenum=(((4/3)*Math.PI)*Math.pow(launchdiameternum/2, 3));
+			grosslift=launchvolumenum*(airdensity-gasdensity);
+			freeliftkg=grosslift-((payloadnum+balloonsizearray[selection])/1000);
+			freeliftn=freeliftkg*9.81;
+			area=Math.PI*Math.pow(launchdiameternum/2, 2);
+			acentrate=Math.sqrt(freeliftn/(.5*cdarray[selection]*airdensity*area));
+			String acentratestring=Double.toString(launchvolumenum); //Not the right transition here. Testing to see if it worked. Its not doing math correctly.
+			//		necklift.setText(launchvolume); 
+			
+			
+			Ascentrate.setText(acentratestring);
+		}	
+	}
+
+
+
+
 
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {

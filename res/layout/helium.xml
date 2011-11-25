@@ -1,52 +1,54 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+
     <EditText
         android:id="@+id/payloadweight"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/BalloonType"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="46dp"
-        android:hint="@string/hintpayloadweight"/>
-    <EditText
-        android:id="@+id/BurstAltitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/BalloonType"
-        android:layout_marginTop="47dp"
-        android:hint="@string/hintburstaltitude"/>
-
-    <Spinner
-        android:id="@+id/spinnerBalloonType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/editTextballoontype"
-        android:layout_marginTop="142dp"
-        android:prompt="@string/balloon_type" />
-
-    <EditText
-        android:id="@+id/AscentRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/BurstAltitude" android:hint="@string/hintascentrate"/>
-
-    <Button
-        android:id="@+id/calculate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/spinnerBalloonType"
-        android:text="Calculate!"/>
+        android:inputType="numberDecimal" android:hint="@string/hintpayloadweight">
 
-</RelativeLayout>
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/BalloonDiameter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal" android:hint="Balloon Diameter"/>
+
+    <Spinner
+        android:id="@+id/heliumspinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:entries="@array/helium_spinner"/>
+
+    <Button
+        android:id="@+id/HeliumCalc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate!" />
+
+    <TextView
+        android:id="@+id/necklift"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:text="NeckLift" />
+
+    <TextView
+        android:id="@+id/ascentrate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.27"
+        android:text="AscentRate" />
+
+    <TextView
+        android:id="@+id/burst"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.26"
+        android:text="Burstheight" android:keepScreenOn="true"/>
+
+</LinearLayout>

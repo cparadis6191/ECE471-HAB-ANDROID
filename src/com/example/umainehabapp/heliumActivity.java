@@ -89,13 +89,13 @@ public void onClick(View v) {
 			payload=payloadtext.getText().toString();
 			payloadnum=Double.parseDouble(payload);
 			launchdiameternum= Double.parseDouble(launchdiameter);
-			launchvolumenum=(((4/3)*Math.PI)*Math.pow(launchdiameternum/2, 3));
+			launchvolumenum=(((4.0/3.0)*Math.PI)*Math.pow(launchdiameternum/2.0, 3));
 			grosslift=launchvolumenum*(airdensity-gasdensity);
-			freeliftkg=grosslift-((payloadnum+balloonsizearray[selection])/1000);
+			freeliftkg=grosslift-((payloadnum+balloonsizearray[selection])/1000.0);
 			freeliftn=freeliftkg*9.81;
-			area=Math.PI*Math.pow(launchdiameternum/2, 2);
+			area=Math.PI*Math.pow(launchdiameternum/2.0, 2);
 			acentrate=Math.sqrt(freeliftn/(.5*cdarray[selection]*airdensity*area));
-			String acentratestring=Double.toString(launchvolumenum); //Not the right transition here. Testing to see if it worked. Its not doing math correctly.
+			String acentratestring=Double.toString(acentrate); //Not the right transition here. Testing to see if it worked. Its not doing math correctly.
 			//		necklift.setText(launchvolume); 
 			
 			

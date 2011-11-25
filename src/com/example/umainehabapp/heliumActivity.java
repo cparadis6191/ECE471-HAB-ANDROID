@@ -89,7 +89,7 @@ public void onClick(View v) {
 			payload=payloadtext.getText().toString();
 			payloadnum=Double.parseDouble(payload);
 			launchdiameternum= Double.parseDouble(launchdiameter);
-			launchvolumenum=(((4/3)*Math.PI)*Math.pow(launchdiameternum/2, 3));
+			launchvolumenum=(((4./3.)*Math.PI)*Math.pow(launchdiameternum/2, 3));
 			grosslift=launchvolumenum*(airdensity-gasdensity);
 			freeliftkg=grosslift-((payloadnum+balloonsizearray[selection])/1000);
 			freeliftn=freeliftkg*9.81;

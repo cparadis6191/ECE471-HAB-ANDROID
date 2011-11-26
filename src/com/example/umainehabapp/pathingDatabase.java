@@ -38,7 +38,8 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
     private static final String DATABASE_TABLE2 = "payload_data"; //table containing general flight data
     private static final String KEY_ROWID = "_flightnumber";
     private static final String PAYLOAD_WEIGHT = "weight";
-    private static final String ASCENT_RATE = "ascent_rate";    
+    private static final String ASCENT_RATE = "ascent_rate";
+    private static final String NECK_WEIGHT = "neck_weight"; //"counterbalance" weight when filling the balloon
     private static final String BURST_ALTITUDE = "burst_altitude";
     private static final String DATE = "date";
     
@@ -60,7 +61,7 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
             /* Create a Table in the Database. */
             db.execSQL("CREATE TABLE IF NOT EXISTS " + DATABASE_TABLE1 + //creates table 1
             		"(" +
-            		KEY_ROWID + " INT, " + //these are the different fields
+            		KEY_ROWID + " INTEGER PRIMARY KEY, " + //these are the different fields
             		TRACKED_LONG + " TEXT, " + //tracked gps data
             		TRACKED_LAT + " TEXT, " + //tracked gps data
             		PREDICTED_LONG + " TEXT, " + //predicted gps data
@@ -69,10 +70,11 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
             
             db.execSQL("CREATE TABLE IF NOT EXISTS " + DATABASE_TABLE2 + //creates table 2
             		"(" +
-            		KEY_ROWID + " INT, " + 
+            		KEY_ROWID + " INT, " + //this should correspond to the KEY_ROWID of table 1
             		PAYLOAD_WEIGHT + " DOUBLE, " + 
             		ASCENT_RATE + " DOUBLE, " + 
             		BURST_ALTITUDE + " DOUBLE, " +
+            		NECK_WEIGHT + " double, " +
             		DATE + " DATE)");
         }
 

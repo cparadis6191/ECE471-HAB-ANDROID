@@ -26,20 +26,16 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     String launchdiameter;
 
 	double balloonweight, freeliftkg,freeliftn, ballooncd, acentrate, burstheight, burstvolume, grosslift,balloonsize,area;
-    double launchvolumenum,payloadnum,launchdiameternum;
+    double launchvolumenum,payloadnum,launchdiameternum,burstdiameter,burstvolumeratio;
 	String launchvolume;
     String payload;
     double[] cdarray = {.25, .25, .25, .25, .25, .3, .3, .3, .3, .25, .25, .25, .25};
-    double[] burstdiameterarray = new double [13];
+    double[] burstdiameterarray = {3.00,3.78,4.12,4.72,4.99,6.02,6.53,7.00,7.86,8.63,9.44,10.54,13.0};
     double[] balloonsizearray = {200,300,350,450,500,600,700,800,1000,1200,1500,2000,3000};
     double[] launchdiameterarray = {1.18872, 1.24968, 1.28016, 1.34112, 1.3716, 1.43256, 1.49352, 1.52400, 1.58496, 1.8288, 1.88976, 1.9812, 2.16408};
     private Button calculate;
 	private EditText payloadtext,diameter;
     private TextView necklift,Ascentrate,Burstheight;
-	
-	
-	
-	
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,9 +51,6 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
         payloadtext.setOnKeyListener(this);
         diameter.setOnKeyListener(this);
 
-        
-        
-        
         final Spinner spinner = (Spinner) findViewById(R.id.heliumspinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
         		this, R.array.helium_spinner, android.R.layout.simple_spinner_item);
@@ -95,17 +88,17 @@ public void onClick(View v) {
 			freeliftn=freeliftkg*9.81;
 			area=Math.PI*Math.pow(launchdiameternum/2.0, 2);
 			acentrate=Math.sqrt(freeliftn/(.5*cdarray[selection]*airdensity*area));
-			String acentratestring=Double.toString(acentrate); //Not the right transition here. Testing to see if it worked. Its not doing math correctly.
-			//		necklift.setText(launchvolume); 
+			String acentratestring=Double.toString(acentrate); 
+			Ascentrate.setText(acentratestring+" Meters/S");
 			
-			
-			Ascentrate.setText(acentratestring);
+			burstdiameter=burstdiameterarray[selection];
+			burstvolume=(((4.0/3.0)*Math.PI)*Math.pow(burstdiameter/2.0, 3));
+			burstvolumeratio=burstvolume/launchvolumenum;
+			burstheight=-(densitymodel*Math.log(1/burstvolumeratio));
+			String burstheightstring=Double.toString(burstheight);
+			Burstheight.setText(burstheightstring+" Meters");
 		}	
 	}
-
-
-
-
 
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {

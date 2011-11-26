@@ -1,5 +1,6 @@
 package com.example.umainehabapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -15,35 +16,32 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
 	//things will be divided by flight numbers
 	//a flight number will be chosen (or a new one created) at the main activity screen
 	
-	public static final String DATABASE_NAME = "habappDatabase";
+	public final static String DATABASE_NAME = "habappDatabase";
 
-    private static final String TAG = "PathingDatabase";
+    private final static String TAG = "PathingDatabase";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
     /**
      * Database creation sql statement
      */
-    private static final String DATABASE_CREATE =
-        "create table (_flightnumber integer primary key autoincrement, "
-        + "title text not null, body text not null);";
 
-    private static final String DATABASE_TABLE1 = "gps_data"; //table that will have tracked gps data stored in it
-    private static final String TRACKED_LONG = "tracked_longitude";
-    private static final String TRACKED_LAT = "tracked_latitude";
-    private static final String PREDICTED_LONG = "predicted_longitude";
-    private static final String PREDICTED_LAT = "predicted_latitude";
-    private static final String TIME = "time_stamp";
+    public final static String DATABASE_TABLE1 = "gps_data"; //table that will have tracked gps data stored in it
+    public final static String TRACKED_LONG = "tracked_longitude";
+    public final static String TRACKED_LAT = "tracked_latitude";
+    public final static String PREDICTED_LONG = "predicted_longitude";
+    public final static String PREDICTED_LAT = "predicted_latitude";
+    public final static String TIME = "time_stamp";
     
-    private static final String DATABASE_TABLE2 = "payload_data"; //table containing general flight data
-    private static final String KEY_ROWID = "_flightnumber";
-    private static final String PAYLOAD_WEIGHT = "weight";
-    private static final String ASCENT_RATE = "ascent_rate";
-    private static final String NECK_WEIGHT = "neck_weight"; //"counterbalance" weight when filling the balloon
-    private static final String BURST_ALTITUDE = "burst_altitude";
-    private static final String DATE = "date";
+    public final static String DATABASE_TABLE2 = "payload_data"; //table containing general flight data
+    public final static String KEY_ROWID = "_flightnumber";
+    public final static String PAYLOAD_WEIGHT = "weight";
+    public final static String ASCENT_RATE = "ascent_rate";
+    public final static String NECK_WEIGHT = "neck_weight"; //"counterbalance" weight when filling the balloon
+    public final static String BURST_ALTITUDE = "burst_altitude";
+    public final static String DATE = "date";
     
-    private static final int DATABASE_VERSION = 2;
+    public final static int DATABASE_VERSION = 2;
 
     private final Context mCtx;
 
@@ -59,23 +57,23 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
             //db.execSQL(DATABASE_CREATE);
             
             /* Create a Table in the Database. */
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + DATABASE_TABLE1 + //creates table 1
-            		"(" +
+            db.execSQL("CREATE TABLE " + DATABASE_TABLE1 + //creates table 1
+            		" (" +
             		KEY_ROWID + " INTEGER PRIMARY KEY, " + //these are the different fields
             		TRACKED_LONG + " TEXT, " + //tracked gps data
             		TRACKED_LAT + " TEXT, " + //tracked gps data
             		PREDICTED_LONG + " TEXT, " + //predicted gps data
             		PREDICTED_LAT + " TEXT, " + //predicted gps data
-            		TIME + " TEXT)");
+            		TIME + " TEXT);");
             
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + DATABASE_TABLE2 + //creates table 2
-            		"(" +
+            db.execSQL("CREATE TABLE " + DATABASE_TABLE2 + //creates table 2
+            		" (" +
             		KEY_ROWID + " INT, " + //this should correspond to the KEY_ROWID of table 1
             		PAYLOAD_WEIGHT + " DOUBLE, " + 
             		ASCENT_RATE + " DOUBLE, " + 
             		BURST_ALTITUDE + " DOUBLE, " +
-            		NECK_WEIGHT + " double, " +
-            		DATE + " DATE)");
+            		NECK_WEIGHT + " DOUBLE, " +
+            		DATE + " DATE);");
         }
 
         @Override
@@ -117,6 +115,17 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
     }
     
     public Cursor fetchFlightNumbers(){ //fetches all flight numbers
-    	return mDb.query(DATABASE_TABLE2, new String[]{KEY_ROWID, KEY_ROWID}, null, null, null, null, null);
+    	return mDb.query(DATABASE_TABLE2, new String[]{KEY_ROWID, PAYLOAD_WEIGHT}, null, null, null, null, null);
+    }
+    
+    public Cursor fuckingtest() {
+	    ContentValues initialValues = new ContentValues();
+	    double weight = 150;
+	    int flightnumber = 1;
+	    initialValues.put(PAYLOAD_WEIGHT, weight);
+	    mDb.insert(DATABASE_TABLE2, null, initialValues);
+	
+	    return mDb.query(DATABASE_TABLE2, new String[] {KEY_ROWID, PAYLOAD_WEIGHT}, null, null, null, null, null);
+
     }
 }

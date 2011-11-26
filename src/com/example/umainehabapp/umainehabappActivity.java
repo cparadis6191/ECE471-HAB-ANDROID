@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 public class umainehabappActivity extends Activity {
 	
@@ -18,6 +18,9 @@ public class umainehabappActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainview);
+        
+        mDbHelper = new pathingDatabase(this);
+        mDbHelper.open();
         
         
         final Button btnhelium = (Button) findViewById(R.id.btnhelium); //button with intent to helium activity
@@ -37,19 +40,35 @@ public class umainehabappActivity extends Activity {
 			}
 		});
         
-        
+
         final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent to pathing/tracking activity
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
+                final TextView textview1;
+
+        		Cursor cur = mDbHelper.fuckingtest(); //fills the spinner from the database
+        		startManagingCursor(cur);
+        		   
+        		String[] from = new String[]{pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
+        		int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
+        		
+                //textview1 = (TextView) findViewById(R.id.textView1);
+                //textview1.setText("123");
+
+                SimpleCursorAdapter notes = new SimpleCursorAdapter(umainehabappActivity.this, R.layout.mainview, cur, from, to);
+                //setListAdapter(notes);
+                
+                //SimpleCursorAdapter catdog = new SimpleCursorAdapter(umainehabappActivity.this, R.layout.mainview, cur, from, to);
+                
         		//on click, query database for highest flight number, increment and commit to database the new flight number
 			}
 		});
         
         
-        /*Cursor cur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
-	    startManagingCursor(cur);
+       // Cursor cur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
+	   // startManagingCursor(cur);
 	   
-	    String[] from = new String[]{"KEY_ROWID"}; // create an array to specify which fields we want to display
+	    /*String[] from = new String[]{"KEY_ROWID"}; // create an array to specify which fields we want to display
 	    int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
 	
 	    SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cur, from, to); // create simple cursor adapter

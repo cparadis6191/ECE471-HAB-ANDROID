@@ -8,14 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class pathingDatabase { //this draws heavily from notepadv3 tutorial
-	//PLEASE READ!
-	//There will three separate tables (as of now).
-	//One will contain flight numbers and flight information
-	//The others will contain GPS data for each flight: predicted flights and tracked flights
-	//things will be divided by flight numbers
-	//a flight number will be chosen (or a new one created) at the main activity screen
-	
+//this draws heavily from notepadv3 tutorial
+//PLEASE READ!
+//There will three separate tables (as of now).
+//One will contain flight numbers and flight information
+//The others will contain GPS data for each flight: predicted flights and tracked flights
+//things will be divided by flight numbers
+//a flight number will be chosen (or a new one created) at the main activity screen
+
+public class pathingDatabase { 	
 	public final static String DATABASE_NAME = "habappDatabase";
 
     private final static String TAG = "PathingDatabase";
@@ -34,7 +35,7 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
     public final static String TIME = "time_stamp";
     
     public final static String DATABASE_TABLE2 = "payload_data"; //table containing general flight data
-    public final static String KEY_ROWID = "_flightnumber";
+    public final static String KEY_ROWID = "_id";
     public final static String PAYLOAD_WEIGHT = "weight";
     public final static String ASCENT_RATE = "ascent_rate";
     public final static String NECK_WEIGHT = "neck_weight"; //"counterbalance" weight when filling the balloon
@@ -42,6 +43,27 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
     public final static String DATE = "date";
     
     public final static int DATABASE_VERSION = 2;
+    
+    public final static String TABLE_CREATE1 =
+    		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 1
+    		" (" +
+    		KEY_ROWID + " INTEGER PRIMARY KEY, " + //these are the different fields
+    		TRACKED_LONG + " TEXT, " + //tracked gps data
+    		TRACKED_LAT + " TEXT, " + //tracked gps data
+    		PREDICTED_LONG + " TEXT, " + //predicted gps data
+    		PREDICTED_LAT + " TEXT, " + //predicted gps data
+    		TIME + " TEXT);";
+    
+    public final static String TABLE_CREATE2 =
+    		"CREATE TABLE " + DATABASE_TABLE2 + //creates table 2
+    		" (" +
+    		KEY_ROWID + " INT, " + //this should correspond to the KEY_ROWID of table 1
+    		PAYLOAD_WEIGHT + " DOUBLE, " + 
+    		ASCENT_RATE + " DOUBLE, " + 
+    		BURST_ALTITUDE + " DOUBLE, " +
+    		NECK_WEIGHT + " DOUBLE, " +
+    		DATE + " DATE);";
+    		
 
     private final Context mCtx;
 
@@ -57,32 +79,24 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
             //db.execSQL(DATABASE_CREATE);
             
             /* Create a Table in the Database. */
-            db.execSQL("CREATE TABLE " + DATABASE_TABLE1 + //creates table 1
-            		" (" +
-            		KEY_ROWID + " INTEGER PRIMARY KEY, " + //these are the different fields
-            		TRACKED_LONG + " TEXT, " + //tracked gps data
-            		TRACKED_LAT + " TEXT, " + //tracked gps data
-            		PREDICTED_LONG + " TEXT, " + //predicted gps data
-            		PREDICTED_LAT + " TEXT, " + //predicted gps data
-            		TIME + " TEXT);");
+            db.execSQL(TABLE_CREATE1);
             
-            db.execSQL("CREATE TABLE " + DATABASE_TABLE2 + //creates table 2
-            		" (" +
-            		KEY_ROWID + " INT, " + //this should correspond to the KEY_ROWID of table 1
-            		PAYLOAD_WEIGHT + " DOUBLE, " + 
-            		ASCENT_RATE + " DOUBLE, " + 
-            		BURST_ALTITUDE + " DOUBLE, " +
-            		NECK_WEIGHT + " DOUBLE, " +
-            		DATE + " DATE);");
+            db.execSQL(TABLE_CREATE2);
         }
 
-        @Override
+		@Override
+		public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+        /*@Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS notes");
             onCreate(db);
-        }
+        }*/
     }
     
     /**
@@ -114,18 +128,16 @@ public class pathingDatabase { //this draws heavily from notepadv3 tutorial
         mDbHelper.close();
     }
     
-    public Cursor fetchFlightNumbers(){ //fetches all flight numbers
+    public Cursor fetchFlightNumbers() { //fetches all flight numbers
     	return mDb.query(DATABASE_TABLE2, new String[]{KEY_ROWID, PAYLOAD_WEIGHT}, null, null, null, null, null);
     }
     
     public Cursor fuckingtest() {
 	    ContentValues initialValues = new ContentValues();
-	    double weight = 150;
-	    int flightnumber = 1;
-	    initialValues.put(PAYLOAD_WEIGHT, weight);
-	    mDb.insert(DATABASE_TABLE2, null, initialValues);
-	
-	    return mDb.query(DATABASE_TABLE2, new String[] {KEY_ROWID, PAYLOAD_WEIGHT}, null, null, null, null, null);
-
+	    double weight = 45.5;
+	    initialValues.put(TRACKED_LONG, weight);
+	    mDb.insert(DATABASE_TABLE1, null, initialValues);
+	    
+	    return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID, TRACKED_LONG}, null, null, null, null, null);
     }
 }

@@ -27,12 +27,7 @@ public final class R {
         public static final int LinearLayout1=0x7f060000;
         public static final int ascentrate=0x7f060006;
         public static final int btnhelium=0x7f060009;
-<<<<<<< HEAD
-        public static final int btnpath=0x7f06000a;
-        public static final int btntomap=0x7f060010;
-=======
         public static final int btnmap=0x7f06000a;
->>>>>>> 5472c6d71dd9abc4a0f0747a90694da52096078d
         public static final int burst=0x7f060007;
         public static final int buttonNF=0x7f06000b;
         public static final int heliumspinner=0x7f060003;
@@ -42,11 +37,7 @@ public final class R {
         public static final int payloadweight=0x7f060001;
         public static final int relativeLayoutMain=0x7f060008;
         public static final int spinnerFN=0x7f06000c;
-<<<<<<< HEAD
-        public static final int text1=0x7f060011;
-=======
         public static final int text1=0x7f06000f;
->>>>>>> 5472c6d71dd9abc4a0f0747a90694da52096078d
     }
     public static final class layout {
         public static final int helium=0x7f030000;

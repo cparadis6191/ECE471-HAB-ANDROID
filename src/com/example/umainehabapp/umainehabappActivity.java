@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class umainehabappActivity extends Activity {
 	
@@ -42,10 +43,7 @@ public class umainehabappActivity extends Activity {
         final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-<<<<<<< HEAD
         		mDbHelper.incrementFlightNumber(); //increments the flight number
-=======
-        		mDbHelper.incrementFlightNumber();
         		
         		Cursor cur = mDbHelper.fetchGPSData("1"); //fills the cursor from the database
         		startManagingCursor(cur);
@@ -67,7 +65,6 @@ public class umainehabappActivity extends Activity {
         		Toast toast = Toast.makeText(getApplicationContext(), str, duration);
         		toast.show();
         		//on click, query database for highest flight number, increment and commit to database the new flight number
->>>>>>> 5472c6d71dd9abc4a0f0747a90694da52096078d
 			}
 		});
         

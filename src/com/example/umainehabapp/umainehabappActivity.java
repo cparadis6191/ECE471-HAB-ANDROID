@@ -1,13 +1,13 @@
 package com.example.umainehabapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class umainehabappActivity extends Activity {
@@ -45,9 +45,9 @@ public class umainehabappActivity extends Activity {
         final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent to pathing/tracking activity
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-                final TextView textview1;
-
-        		Cursor cur = mDbHelper.fuckingtest(); //fills the spinner from the database
+        		mDbHelper.incrementFlightNumber();
+        		
+        		Cursor cur = mDbHelper.fetchFlightNumbers(); //fills the cursor from the database
         		startManagingCursor(cur);
         		
         		//String[] from = new String[]{pathingDatabase.TRACKED_LONG}; // create an array to specify which fields we want to display
@@ -55,10 +55,10 @@ public class umainehabappActivity extends Activity {
         		
         		//CharSequence text = cur.getString(cur.getColumnIndex("tracked_longitude"));
         		
-        		String str = "It fucked shit up hardcore brah!!!";
+        		String str = "It doesn't work";
         		
-        		if(cur.moveToFirst()) {
-        			str = cur.getString(cur.getColumnIndex("tracked_longitude"));
+        		if(cur.moveToLast()) {
+        			str = cur.getString(cur.getColumnIndex(pathingDatabase.KEY_ROWID)); //prints the latest entry for testing
         		}
         		
         		//CharSequence text = cur.getString(1);
@@ -71,16 +71,18 @@ public class umainehabappActivity extends Activity {
 		});
         
         
-       // Cursor cur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
-	   // startManagingCursor(cur);
+       Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
+	   startManagingCursor(FNcur);
 	   
-	    /*String[] from = new String[]{"KEY_ROWID"}; // create an array to specify which fields we want to display
+	    String[] from = new String[]{pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
 	    int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
-	
-	    SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cur, from, to); // create simple cursor adapter
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    
 	    Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
-	    spnFlightNumber.setAdapter(adapter);*/
+	
+	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter
+	    FNadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+	    spnFlightNumber.setAdapter(FNadapter);
 	    
     }
 }

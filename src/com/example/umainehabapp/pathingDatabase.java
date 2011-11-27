@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.Time;
 import android.util.Log;
 
 //this draws heavily from notepadv3 tutorial
@@ -22,19 +23,13 @@ public class pathingDatabase {
     private final static String TAG = "PathingDatabase";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
+    private final Context mCtx;
 
     /**
      * Database creation sql statement
      */
-
-    public final static String DATABASE_TABLE1 = "gps_data"; //table that will have tracked gps data stored in it
-    public final static String TRACKED_LONG = "tracked_longitude";
-    public final static String TRACKED_LAT = "tracked_latitude";
-    public final static String PREDICTED_LONG = "predicted_longitude";
-    public final static String PREDICTED_LAT = "predicted_latitude";
-    public final static String TIME = "time_stamp";
     
-    public final static String DATABASE_TABLE2 = "payload_data"; //table containing general flight data
+    public final static String DATABASE_TABLE1 = "payload_data"; //table containing general flight data
     public final static String KEY_ROWID = "_id";
     public final static String PAYLOAD_WEIGHT = "weight";
     public final static String ASCENT_RATE = "ascent_rate";
@@ -42,31 +37,36 @@ public class pathingDatabase {
     public final static String BURST_ALTITUDE = "burst_altitude";
     public final static String DATE = "date";
     
-    public final static int DATABASE_VERSION = 2;
+    public final static String DATABASE_TABLE2 = "gps_data"; //table that will have tracked gps data stored in it
+    public final static String TRACKED_LONG = "tracked_longitude";
+    public final static String TRACKED_LAT = "tracked_latitude";
+    public final static String PREDICTED_LONG = "predicted_longitude";
+    public final static String PREDICTED_LAT = "predicted_latitude";
+    public final static String TIME = "time_stamp";
+
     
-    public final static String TABLE_CREATE1 =
-    		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 1
+    public final static int DATABASE_VERSION = 5; //change this when updating methods and data structure
+    
+    public final static String TABLE_CREATE1 = //payload_data
+    		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 2
     		" (" +
-    		KEY_ROWID + " INTEGER PRIMARY KEY, " + //these are the different fields
+    		KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + //this should correspond to the KEY_ROWID of table 1
+    		PAYLOAD_WEIGHT + " DOUBLE, " + 
+    		ASCENT_RATE + " DOUBLE, " + 
+    		BURST_ALTITUDE + " DOUBLE, " +
+    		NECK_WEIGHT + " DOUBLE, " +
+    		TIME + " TEXT);";
+    
+    public final static String TABLE_CREATE2 = //gps_data
+    		"CREATE TABLE " + DATABASE_TABLE2 + //creates table 1
+    		" (" +
+    		KEY_ROWID + " INT, " + //these are the different fields
     		TRACKED_LONG + " TEXT, " + //tracked gps data
     		TRACKED_LAT + " TEXT, " + //tracked gps data
     		PREDICTED_LONG + " TEXT, " + //predicted gps data
     		PREDICTED_LAT + " TEXT, " + //predicted gps data
     		TIME + " TEXT);";
-    
-    public final static String TABLE_CREATE2 =
-    		"CREATE TABLE " + DATABASE_TABLE2 + //creates table 2
-    		" (" +
-    		KEY_ROWID + " INT, " + //this should correspond to the KEY_ROWID of table 1
-    		PAYLOAD_WEIGHT + " DOUBLE, " + 
-    		ASCENT_RATE + " DOUBLE, " + 
-    		BURST_ALTITUDE + " DOUBLE, " +
-    		NECK_WEIGHT + " DOUBLE, " +
-    		DATE + " DATE);";
     		
-
-    private final Context mCtx;
-
     
     public static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -84,19 +84,15 @@ public class pathingDatabase {
             db.execSQL(TABLE_CREATE2);
         }
 
-		@Override
-		public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-			// TODO Auto-generated method stub
-			
-		}
 
-        /*@Override
+        @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS notes");
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE1); //deletes the old database if i upgrade the methods
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE2);
             onCreate(db);
-        }*/
+        }
     }
     
     /**
@@ -128,13 +124,23 @@ public class pathingDatabase {
         mDbHelper.close();
     }
     
-    public Cursor fetchFlightNumbers() { //fetches all flight numbers
-    	return mDb.query(DATABASE_TABLE2, new String[]{KEY_ROWID, PAYLOAD_WEIGHT}, null, null, null, null, null);
+    public void incrementFlightNumber() { //starts a new flight, adds a new unique record to payload_data
+    	ContentValues initialValues = new ContentValues();
+    	
+    	Time now = new Time();
+    	now.setToNow();
+    	
+    	initialValues.put(TIME, now.toString());
+    	mDb.insert(DATABASE_TABLE1, null, initialValues);
     }
     
-    public Cursor fuckingtest() {
+    public Cursor fetchFlightNumbers() { //fetches all flight numbers
+    	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID}, null, null, null, null, null);
+    }
+    
+    public Cursor test() {
 	    ContentValues initialValues = new ContentValues();
-	    double weight = 45.5;
+	    double weight = 450;
 	    initialValues.put(TRACKED_LONG, weight);
 	    mDb.insert(DATABASE_TABLE1, null, initialValues);
 	    

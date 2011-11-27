@@ -32,14 +32,14 @@ public class umainehabappActivity extends Activity {
         	}
         });
         
-        
-        final Button btnPath = (Button) findViewById(R.id.btnpath); //button with intent to pathing/tracking activity
-        btnPath.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-				Intent topathing = new Intent(umainehabappActivity.this, pathing.class);
-				startActivity(topathing);
+        final Button btnMap= (Button) findViewById(R.id.btnmap);
+        btnMap.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View v) {
+				Intent Intenttomap = new Intent(umainehabappActivity.this, map.class);
+				startActivity(Intenttomap);
 			}
-		});
+        });
+        
         
 
         final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent to pathing/tracking activity
@@ -47,7 +47,7 @@ public class umainehabappActivity extends Activity {
         	public void onClick(View v) {
         		mDbHelper.incrementFlightNumber();
         		
-        		Cursor cur = mDbHelper.fetchFlightNumbers(); //fills the cursor from the database
+        		Cursor cur = mDbHelper.fetchGPSData("1"); //fills the cursor from the database
         		startManagingCursor(cur);
         		
         		//String[] from = new String[]{pathingDatabase.TRACKED_LONG}; // create an array to specify which fields we want to display
@@ -57,8 +57,8 @@ public class umainehabappActivity extends Activity {
         		
         		String str = "It doesn't work";
         		
-        		if(cur.moveToLast()) {
-        			str = cur.getString(cur.getColumnIndex(pathingDatabase.KEY_ROWID)); //prints the latest entry for testing
+        		if(cur.moveToFirst()) {
+        			str = cur.getString(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)); //prints the latest entry for testing
         		}
         		
         		//CharSequence text = cur.getString(1);

@@ -14,7 +14,7 @@
             android:text="Calculate Lift" />
 
         <Button
-            android:id="@+id/btnpath"
+            android:id="@+id/btnmap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

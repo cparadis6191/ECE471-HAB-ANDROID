@@ -45,9 +45,13 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
+<<<<<<< HEAD
 
     public final static int DATABASE_VERSION = 9; //change this when updating methods and data structure
 
+=======
+    public final static int DATABASE_VERSION = 9; //change this when updating methods and data structure
+>>>>>>> 8f9627a8e2954d68dd875a9fb0c9dbc2df40538c
     
     public final static String TABLE_CREATE1 = //payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 2
@@ -82,7 +86,6 @@ public class pathingDatabase {
             
             /* Create a Table in the Database. */
             db.execSQL(TABLE_CREATE1);
-            
             db.execSQL(TABLE_CREATE2);
         }
 
@@ -137,7 +140,7 @@ public class pathingDatabase {
     }
     
     public Cursor fetchFlightNumbers() { //fetches all flight numbers
-    	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID}, null, null, null, null, null);
+    	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID}, null, null, null, null, KEY_ROWID + " DESC");
     }
     
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers
@@ -154,15 +157,5 @@ public class pathingDatabase {
 	    mDb.insert(DATABASE_TABLE2, null, initialValues);
     	
     	return mDb.query(DATABASE_TABLE2, new String[] {PREDICTED_LONG, PREDICTED_LAT, TRACKED_LONG, TRACKED_LAT}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
-    	//return mDb.rawQuery("select " + PREDICTED_LONG + " where " + KEY_ROWID + " = " + flightnumber + " from " + DATABASE_TABLE2, nurll);
-    }
-    
-    public Cursor test() {
-	    ContentValues initialValues = new ContentValues();
-	    double weight = 450;
-	    initialValues.put(TRACKED_LONG, weight);
-	    mDb.insert(DATABASE_TABLE1, null, initialValues);
-	    
-	    return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID, TRACKED_LONG}, null, null, null, null, null);
     }
 }

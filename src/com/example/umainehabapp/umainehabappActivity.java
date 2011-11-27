@@ -29,20 +29,45 @@ public class umainehabappActivity extends Activity {
         	}
         });
         
-        
-        final Button btnPath = (Button) findViewById(R.id.btnpath); //button with intent to pathing/tracking activity
-        btnPath.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-				Intent topathing = new Intent(umainehabappActivity.this, pathing.class);
-				startActivity(topathing);
+        final Button btnMap= (Button) findViewById(R.id.btnmap);
+        btnMap.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View v) {
+				Intent Intenttomap = new Intent(umainehabappActivity.this, map.class);
+				startActivity(Intenttomap);
 			}
-		});
+        });
+        
         
 
         final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
+<<<<<<< HEAD
         		mDbHelper.incrementFlightNumber(); //increments the flight number
+=======
+        		mDbHelper.incrementFlightNumber();
+        		
+        		Cursor cur = mDbHelper.fetchGPSData("1"); //fills the cursor from the database
+        		startManagingCursor(cur);
+        		
+        		//String[] from = new String[]{pathingDatabase.TRACKED_LONG}; // create an array to specify which fields we want to display
+        		//int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
+        		
+        		//CharSequence text = cur.getString(cur.getColumnIndex("tracked_longitude"));
+        		
+        		String str = "It doesn't work";
+        		
+        		if(cur.moveToFirst()) {
+        			str = cur.getString(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)); //prints the latest entry for testing
+        		}
+        		
+        		//CharSequence text = cur.getString(1);
+        		int duration = Toast.LENGTH_SHORT;
+
+        		Toast toast = Toast.makeText(getApplicationContext(), str, duration);
+        		toast.show();
+        		//on click, query database for highest flight number, increment and commit to database the new flight number
+>>>>>>> 5472c6d71dd9abc4a0f0747a90694da52096078d
 			}
 		});
         

@@ -8,21 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class umainehabappActivity extends Activity {
 	
-	private pathingDatabase mDbHelper; //creates a database helper object to be used in accessing the database
-	
+	private pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
+    	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainview);
         
-        mDbHelper = new pathingDatabase(this);
-        mDbHelper.open();
-        
+        mDbHelper.open(); //opens the database
         
         final Button btnhelium = (Button) findViewById(R.id.btnhelium); //button with intent to helium activity
         btnhelium.setOnClickListener(new View.OnClickListener() {
@@ -42,47 +39,32 @@ public class umainehabappActivity extends Activity {
 		});
         
 
-        final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent to pathing/tracking activity
+        final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		mDbHelper.incrementFlightNumber();
-        		
-        		Cursor cur = mDbHelper.fetchFlightNumbers(); //fills the cursor from the database
-        		startManagingCursor(cur);
-        		
-        		//String[] from = new String[]{pathingDatabase.TRACKED_LONG}; // create an array to specify which fields we want to display
-        		//int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
-        		
-        		//CharSequence text = cur.getString(cur.getColumnIndex("tracked_longitude"));
-        		
-        		String str = "It doesn't work";
-        		
-        		if(cur.moveToLast()) {
-        			str = cur.getString(cur.getColumnIndex(pathingDatabase.KEY_ROWID)); //prints the latest entry for testing
-        		}
-        		
-        		//CharSequence text = cur.getString(1);
-        		int duration = Toast.LENGTH_SHORT;
-
-        		Toast toast = Toast.makeText(getApplicationContext(), str, duration);
-        		toast.show();
-        		//on click, query database for highest flight number, increment and commit to database the new flight number
+        		mDbHelper.incrementFlightNumber(); //increments the flight number
 			}
 		});
         
-        
-       Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
-	   startManagingCursor(FNcur);
-	   
-	    String[] from = new String[]{pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
+        populatespnFlightNumber(); //put the code into a function to clean things up a bit
+	    
+    }
+    
+
+    void populatespnFlightNumber() { //populates the spinner
+    	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
+    	SimpleCursorAdapter FNadapter;
+
+        Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
+
+        startManagingCursor(FNcur);
+
+        String[] from = new String[]{pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
 	    int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
 	    
-	    Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
-	
-	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter
+	    FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter
 	    FNadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 	    spnFlightNumber.setAdapter(FNadapter);
-	    
-    }
+	}
 }

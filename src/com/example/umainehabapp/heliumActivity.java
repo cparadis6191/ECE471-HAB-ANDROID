@@ -36,11 +36,17 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     private Button calculate;
 	private EditText payloadtext,diameter;
     private TextView necklift,Ascentrate,Burstheight;
+    
+
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.helium);
+        
+        Bundle bundle = this.getIntent().getExtras(); //the current selected flight number passed via intent 
+        String flightnumber = bundle.getString("flightnumber");
+        
         payloadtext= (EditText) findViewById(R.id.payloadweight);
         diameter= (EditText) findViewById(R.id.BalloonDiameter);
         calculate = (Button) findViewById(R.id.HeliumCalc);
@@ -60,9 +66,7 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     }
    
     public class MyOnItemSelectedListener implements OnItemSelectedListener {
-    	public void onItemSelected(AdapterView<?> parent,
-    	        
-	    		View view, int pos, long id) {
+    	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			
     	selection=parent.getSelectedItemPosition();
     }
@@ -97,6 +101,9 @@ public void onClick(View v) {
 			burstheight=-(densitymodel*Math.log(1/burstvolumeratio));
 			String burstheightstring=Double.toString(burstheight);
 			Burstheight.setText(burstheightstring+" Meters");
+			
+			//pathingDatabase mDbHelper; //creates a database helper object to be used in accessing the database
+			//mDbHelper.setpayloadData(flightnumber, payloadweight, neck_weight, burst_height, ascent_rate);
 		}	
 	}
 

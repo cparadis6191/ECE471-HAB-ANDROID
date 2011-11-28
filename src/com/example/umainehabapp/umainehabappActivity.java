@@ -25,6 +25,7 @@ public class umainehabappActivity extends Activity {
         btnhelium.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		Intent intenthelium = new Intent(umainehabappActivity.this, heliumActivity.class);
+        		intenthelium.putExtra("flightnumber", getspnFNvalue());
         		startActivity(intenthelium);
         	}
         });
@@ -32,9 +33,9 @@ public class umainehabappActivity extends Activity {
         final Button btnMap= (Button) findViewById(R.id.btnmap);
         btnMap.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v) {
-				Intent Intenttomap = new Intent(umainehabappActivity.this, map.class);
-        		Intenttomap.putExtra("flightnumber", getspnFNvalue());
-				startActivity(Intenttomap);
+				Intent intenttomap = new Intent(umainehabappActivity.this, map.class);
+        		intenttomap.putExtra("flightnumber", getspnFNvalue());
+				startActivity(intenttomap);
 			}
         });
         

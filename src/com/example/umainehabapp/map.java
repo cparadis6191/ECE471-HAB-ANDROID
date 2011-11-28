@@ -36,7 +36,7 @@ public class map extends MapActivity {
         mapView.setBuiltInZoomControls(true); //enables the zoom controls
         
         Bundle bundle = this.getIntent().getExtras(); //the current selected flight number 
-        String flightnumber=bundle.getString("flightnumber");
+        String flightnumber = bundle.getString("flightnumber");
         
         Cursor cur = mDbHelper.fetchGPSData(flightnumber); //fills the cursor from the database
 		startManagingCursor(cur);
@@ -44,11 +44,15 @@ public class map extends MapActivity {
 		
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.gpspin_cyan);
+		drawable = this.getResources().getDrawable(R.drawable.gpspin_purple);
+
 		itemizedOverlay = new mapItemizedOverlay(drawable);
 		
 		do { //this section of code plots all predicted gps coords for a certain flight number
-	        GeoPoint point=new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG)));
-	        OverlayItem overlayitem=new OverlayItem(point, "", "");
+	        GeoPoint predicted = new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG)));
+	        GeoPoint tracked = new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.TRACKED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.TRACKED_LONG)));
+
+	        OverlayItem overlayitem = new OverlayItem(predicted, "", "");
 	        
 	        itemizedOverlay.addOverlay(overlayitem);
 	        mapOverlays.add(itemizedOverlay);

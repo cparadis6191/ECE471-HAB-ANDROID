@@ -30,7 +30,7 @@ public class pathingDatabase {
      */
     
     public final static String DATABASE_TABLE1 = "payload_data"; //table containing general flight data
-    public final static String KEY_ROWID = "_id";
+    public final static String KEY_ROWID = "_id"; //flight number
     public final static String PAYLOAD_WEIGHT = "weight";
     public final static String ASCENT_RATE = "ascent_rate";
     public final static String NECK_WEIGHT = "neck_weight"; //"counterbalance" weight when filling the balloon
@@ -47,7 +47,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 11; //change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 12; //change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = //payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 2
@@ -144,6 +144,16 @@ public class pathingDatabase {
     	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID}, null, null, null, null, KEY_ROWID + " DESC");
     }
     
+    public void setpayloadData(String flightnumber, Double weight, Double neck_weight, Double burst_height, Double ascent_rate) {
+    	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
+	    initialValues.put(PAYLOAD_WEIGHT, weight);
+	    initialValues.put(NECK_WEIGHT, neck_weight);
+	    initialValues.put(BURST_ALTITUDE, burst_height);
+	    initialValues.put(ASCENT_RATE, ascent_rate);
+	    
+    	mDb.update(DATABASE_TABLE1, initialValues, KEY_ROWID + " = " + flightnumber, null);
+    }
+    
     
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers
     	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
@@ -159,14 +169,14 @@ public class pathingDatabase {
 	    
     	ContentValues initialValues1 = new ContentValues();
 	    double weight10 = 46.0;
-	    initialValues.put(PREDICTED_LONG, weight10);
+	    initialValues1.put(PREDICTED_LONG, weight10);
 	    double weight11 = 46.1;
-	    initialValues.put(PREDICTED_LAT, weight11);
+	    initialValues1.put(PREDICTED_LAT, weight11);
 	    double weight12 = 46.2;
-	    initialValues.put(TRACKED_LONG, weight12);
+	    initialValues1.put(TRACKED_LONG, weight12);
 	    double weight13 = 46.3;
-	    initialValues.put(TRACKED_LAT,  weight13);
-	    initialValues.put(KEY_ROWID, 1);
+	    initialValues1.put(TRACKED_LAT,  weight13);
+	    initialValues1.put(KEY_ROWID, 1);
 	    
 	    mDb.insert(DATABASE_TABLE2, null, initialValues1);
 	    mDb.insert(DATABASE_TABLE2, null, initialValues);

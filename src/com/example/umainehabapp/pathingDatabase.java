@@ -40,20 +40,15 @@ public class pathingDatabase {
     public final static String DATABASE_TABLE2 = "gps_data"; //table that will have tracked gps data stored in it
     public final static String TRACKED_LONG = "tracked_longitude";
     public final static String TRACKED_LAT = "tracked_latitude";
+    public final static String TRACKED_ALT = "predicted_altitude";
     public final static String PREDICTED_LONG = "predicted_longitude";
     public final static String PREDICTED_LAT = "predicted_latitude";
+    public final static String PREDICTED_ALT = "predicted_altitude";
     public final static String TIME = "time_stamp";
 
     
-<<<<<<< HEAD
-    public final static int DATABASE_VERSION = 10; //change this when updating methods and data structure
-
-=======
-
-    public final static int DATABASE_VERSION = 9; //change this when updating methods and data structure
-
+    public final static int DATABASE_VERSION = 11; //change this when updating methods and data structure
     
->>>>>>> 2cfe8c3f2584adc4e803b6143619ae01ba481f8c
     public final static String TABLE_CREATE1 = //payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 2
     		" (" +
@@ -137,11 +132,11 @@ public class pathingDatabase {
     public void incrementFlightNumber() { //starts a new flight, adds a new unique record to payload_data
     	ContentValues initialValues = new ContentValues();
     	
-    	Time now = new Time();
+    	Time now = new Time(); //gets the current time
     	now.setToNow();
     	
     	initialValues.put(TIME, now.toString());
-    	mDb.insert(DATABASE_TABLE1, null, initialValues);
+    	mDb.insert(DATABASE_TABLE1, null, initialValues); //inserts the current time to the database
     }
     
     
@@ -151,7 +146,7 @@ public class pathingDatabase {
     
     
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers
-    	ContentValues initialValues = new ContentValues();
+    	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
 	    double weight = 45.0;
 	    initialValues.put(PREDICTED_LONG, weight);
 	    double weight1 = 45.1;
@@ -177,5 +172,6 @@ public class pathingDatabase {
 	    mDb.insert(DATABASE_TABLE2, null, initialValues);
     	
     	return mDb.query(DATABASE_TABLE2, new String[] {PREDICTED_LONG, PREDICTED_LAT, TRACKED_LONG, TRACKED_LAT}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
+    	// picks the four columns based on the flight number
     }
 }

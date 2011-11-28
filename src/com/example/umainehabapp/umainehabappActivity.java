@@ -38,21 +38,19 @@ public class umainehabappActivity extends Activity {
 			}
         });
         
-        
-
         final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		mDbHelper.incrementFlightNumber(); //increments the flight number
-        		populatespnFlightNumber();
+        		populatespnFlightNumber(); //updates the spinner so the new flight is shown
 			}
 		});
         
-        populatespnFlightNumber();
+        populatespnFlightNumber(); //populate the spinner
 
     }
 
-
+    
     void populatespnFlightNumber() { //populates the spinner
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
         Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
@@ -67,6 +65,7 @@ public class umainehabappActivity extends Activity {
 	    spnFlightNumber.setAdapter(FNadapter);
 	}
     
+    
     String getspnFNvalue() {
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
         Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
@@ -75,7 +74,7 @@ public class umainehabappActivity extends Activity {
         String[] from = new String[] {pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
 	    int[] to = new int[] {android.R.id.text1}; // create an array of the display item we want to bind our data to
 
-	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter
+	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter filled with data from the database
 	    FNadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         
         Cursor cursor = (Cursor) FNadapter.getItem(spnFlightNumber.getSelectedItemPosition());

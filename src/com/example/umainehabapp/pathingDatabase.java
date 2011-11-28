@@ -45,8 +45,15 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
+<<<<<<< HEAD
     public final static int DATABASE_VERSION = 10; //change this when updating methods and data structure
 
+=======
+
+    public final static int DATABASE_VERSION = 9; //change this when updating methods and data structure
+
+    
+>>>>>>> 2cfe8c3f2584adc4e803b6143619ae01ba481f8c
     public final static String TABLE_CREATE1 = //payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 2
     		" (" +

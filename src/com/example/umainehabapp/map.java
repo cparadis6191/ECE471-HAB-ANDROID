@@ -42,6 +42,7 @@ public class map extends MapActivity {
 		startManagingCursor(cur);
 		cur.moveToFirst();
 		
+<<<<<<< HEAD
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.red_point);
 		
@@ -51,6 +52,10 @@ public class map extends MapActivity {
 		
 		
 		do {
+=======
+		
+		while(cur.moveToNext()) {
+>>>>>>> 2cfe8c3f2584adc4e803b6143619ae01ba481f8c
 	        GeoPoint point=new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG)));
 	        OverlayItem overlayitem=new OverlayItem(point, "", "");
 	        

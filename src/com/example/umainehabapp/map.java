@@ -42,6 +42,7 @@ public class map extends MapActivity {
 		startManagingCursor(cur);
 		cur.moveToFirst();
 		
+		
 		while(cur.moveToNext()) {
 	        GeoPoint point=new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG)));
 	        OverlayItem overlayitem=new OverlayItem(point, "", "");

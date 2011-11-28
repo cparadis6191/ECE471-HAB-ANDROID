@@ -47,31 +47,7 @@ public class umainehabappActivity extends Activity {
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		mDbHelper.incrementFlightNumber(); //increments the flight number
-<<<<<<< HEAD
-        		
-        		Cursor cur = mDbHelper.fetchGPSData("1"); //fills the cursor from the database
-        		startManagingCursor(cur);
-        		
-        		//String[] from = new String[]{pathingDatabase.TRACKED_LONG}; // create an array to specify which fields we want to display
-        		//int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
-        		
-        		//CharSequence text = cur.getString(cur.getColumnIndex("tracked_longitude"));
-        		
-        		String str = "It doesn't work";
-        		
-        		if(cur.moveToFirst()) {
-        			str = cur.getString(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)); //prints the latest entry for testing
-        		}
-        		
-        		//CharSequence text = cur.getString(1);
-        		int duration = Toast.LENGTH_SHORT;
-
-        		Toast toast = Toast.makeText(getApplicationContext(), str, duration);
-        		toast.show();
-        		//on click, query database for highest flight number, increment and commit to database the new flight number
-=======
         		populatespnFlightNumber();
->>>>>>> 8f9627a8e2954d68dd875a9fb0c9dbc2df40538c
 			}
 		});
         

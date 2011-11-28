@@ -45,14 +45,8 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-<<<<<<< HEAD
+    public final static int DATABASE_VERSION = 10; //change this when updating methods and data structure
 
-    public final static int DATABASE_VERSION = 9; //change this when updating methods and data structure
-
-=======
-    public final static int DATABASE_VERSION = 9; //change this when updating methods and data structure
->>>>>>> 8f9627a8e2954d68dd875a9fb0c9dbc2df40538c
-    
     public final static String TABLE_CREATE1 = //payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 2
     		" (" +
@@ -67,10 +61,10 @@ public class pathingDatabase {
     		"CREATE TABLE " + DATABASE_TABLE2 + //creates table 1
     		" (" +
     		KEY_ROWID + " INT, " + //these are the different fields
-    		TRACKED_LONG + " TEXT, " + //tracked gps data
-    		TRACKED_LAT + " TEXT, " + //tracked gps data
-    		PREDICTED_LONG + " TEXT, " + //predicted gps data
-    		PREDICTED_LAT + " TEXT, " + //predicted gps data
+    		TRACKED_LONG + " DOUBLE, " + //tracked gps data
+    		TRACKED_LAT + " DOUBLE, " + //tracked gps data
+    		PREDICTED_LONG + " DOUBLE, " + //predicted gps data
+    		PREDICTED_LAT + " DOUBLE, " + //predicted gps data
     		TIME + " TEXT);";
     		
     
@@ -100,6 +94,7 @@ public class pathingDatabase {
         }
     }
     
+    
     /**
      * Constructor - takes the context to allow the database to be
      * opened/created
@@ -109,6 +104,7 @@ public class pathingDatabase {
     public pathingDatabase(Context ctx) {
         this.mCtx = ctx;
     }
+    
     
     /**
      * Open the notes database. If it cannot be opened, try to create a new
@@ -125,9 +121,11 @@ public class pathingDatabase {
         return this;
     }
 
+    
     public void close() {
         mDbHelper.close();
     }
+    
     
     public void incrementFlightNumber() { //starts a new flight, adds a new unique record to payload_data
     	ContentValues initialValues = new ContentValues();
@@ -139,9 +137,11 @@ public class pathingDatabase {
     	mDb.insert(DATABASE_TABLE1, null, initialValues);
     }
     
+    
     public Cursor fetchFlightNumbers() { //fetches all flight numbers
     	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID}, null, null, null, null, KEY_ROWID + " DESC");
     }
+    
     
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers
     	ContentValues initialValues = new ContentValues();
@@ -154,6 +154,19 @@ public class pathingDatabase {
 	    double weight3 = 45.3;
 	    initialValues.put(TRACKED_LAT,  weight3);
 	    initialValues.put(KEY_ROWID, 1);
+	    
+    	ContentValues initialValues1 = new ContentValues();
+	    double weight10 = 46.0;
+	    initialValues.put(PREDICTED_LONG, weight10);
+	    double weight11 = 46.1;
+	    initialValues.put(PREDICTED_LAT, weight11);
+	    double weight12 = 46.2;
+	    initialValues.put(TRACKED_LONG, weight12);
+	    double weight13 = 46.3;
+	    initialValues.put(TRACKED_LAT,  weight13);
+	    initialValues.put(KEY_ROWID, 1);
+	    
+	    mDb.insert(DATABASE_TABLE2, null, initialValues1);
 	    mDb.insert(DATABASE_TABLE2, null, initialValues);
     	
     	return mDb.query(DATABASE_TABLE2, new String[] {PREDICTED_LONG, PREDICTED_LAT, TRACKED_LONG, TRACKED_LAT}, KEY_ROWID + " = " + flightnumber, null, null, null, null);

@@ -28,10 +28,6 @@ public final class R {
         public static final int ascentrate=0x7f060006;
         public static final int btnhelium=0x7f060009;
         public static final int btnmap=0x7f06000a;
-<<<<<<< HEAD
-=======
-        public static final int btntomap=0x7f060010;
->>>>>>> 8f9627a8e2954d68dd875a9fb0c9dbc2df40538c
         public static final int burst=0x7f060007;
         public static final int buttonNF=0x7f06000b;
         public static final int heliumspinner=0x7f060003;
@@ -39,21 +35,15 @@ public final class R {
         public static final int mapview=0x7f06000e;
         public static final int necklift=0x7f060005;
         public static final int payloadweight=0x7f060001;
-        public static final int relativeLayout1=0x7f06000f;
         public static final int relativeLayoutMain=0x7f060008;
         public static final int spinnerFN=0x7f06000c;
-<<<<<<< HEAD
         public static final int text1=0x7f06000f;
-=======
-        public static final int text1=0x7f060011;
->>>>>>> 8f9627a8e2954d68dd875a9fb0c9dbc2df40538c
     }
     public static final class layout {
         public static final int helium=0x7f030000;
         public static final int mainview=0x7f030001;
         public static final int pathmap=0x7f030002;
-        public static final int pathparam=0x7f030003;
-        public static final int row=0x7f030004;
+        public static final int row=0x7f030003;
     }
     public static final class string {
         /**  General project strings 

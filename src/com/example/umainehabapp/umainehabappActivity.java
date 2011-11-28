@@ -1,7 +1,6 @@
 package com.example.umainehabapp;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class umainehabappActivity extends Activity {
 	
@@ -34,7 +32,6 @@ public class umainehabappActivity extends Activity {
         final Button btnMap= (Button) findViewById(R.id.btnmap);
         btnMap.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v) {
-        		
 				Intent Intenttomap = new Intent(umainehabappActivity.this, map.class);
         		Intenttomap.putExtra("flightnumber", getspnFNvalue());
 				startActivity(Intenttomap);
@@ -47,31 +44,7 @@ public class umainehabappActivity extends Activity {
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		mDbHelper.incrementFlightNumber(); //increments the flight number
-<<<<<<< HEAD
-        		
-        		Cursor cur = mDbHelper.fetchGPSData("1"); //fills the cursor from the database
-        		startManagingCursor(cur);
-        		
-        		//String[] from = new String[]{pathingDatabase.TRACKED_LONG}; // create an array to specify which fields we want to display
-        		//int[] to = new int[]{android.R.id.text1}; // create an array of the display item we want to bind our data to
-        		
-        		//CharSequence text = cur.getString(cur.getColumnIndex("tracked_longitude"));
-        		
-        		String str = "It doesn't work";
-        		
-        		if(cur.moveToFirst()) {
-        			str = cur.getString(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)); //prints the latest entry for testing
-        		}
-        		
-        		//CharSequence text = cur.getString(1);
-        		int duration = Toast.LENGTH_SHORT;
-
-        		Toast toast = Toast.makeText(getApplicationContext(), str, duration);
-        		toast.show();
-        		//on click, query database for highest flight number, increment and commit to database the new flight number
-=======
         		populatespnFlightNumber();
->>>>>>> 8f9627a8e2954d68dd875a9fb0c9dbc2df40538c
 			}
 		});
         
@@ -82,9 +55,7 @@ public class umainehabappActivity extends Activity {
 
     void populatespnFlightNumber() { //populates the spinner
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
-
         Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
-
         startManagingCursor(FNcur);
 
         String[] from = new String[] {pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
@@ -98,9 +69,7 @@ public class umainehabappActivity extends Activity {
     
     String getspnFNvalue() {
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
-
         Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
-
         startManagingCursor(FNcur);
 
         String[] from = new String[] {pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
@@ -110,7 +79,6 @@ public class umainehabappActivity extends Activity {
 	    FNadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         
         Cursor cursor = (Cursor) FNadapter.getItem(spnFlightNumber.getSelectedItemPosition());
-        
         return cursor.getString(cursor.getColumnIndex(pathingDatabase.KEY_ROWID));
     }
 }

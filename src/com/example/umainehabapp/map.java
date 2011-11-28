@@ -42,12 +42,20 @@ public class map extends MapActivity {
 		startManagingCursor(cur);
 		cur.moveToFirst();
 		
-		while(cur.moveToNext()) {
+		mapOverlays = mapView.getOverlays();
+		drawable = this.getResources().getDrawable(R.drawable.red_point);
+		
+		itemizedOverlay = new mapItemizedOverlay(drawable);
+		double x = cur.getDouble(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT));
+		double y = cur.getDouble(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG));
+		
+		
+		do {
 	        GeoPoint point=new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG)));
 	        OverlayItem overlayitem=new OverlayItem(point, "", "");
 	        
 	        itemizedOverlay.addOverlay(overlayitem);
 	        mapOverlays.add(itemizedOverlay);
-		}
+		} while(cur.moveToNext());
 	}
 }

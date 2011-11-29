@@ -25,8 +25,8 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     int selection;
     String launchdiameter;
 
-	double  freeliftkg,freeliftn, acentrate, burstheight, burstvolume, grosslift,balloonsize,area;
-    double launchvolumenum,payloadnum,launchdiameternum,burstdiameter,burstvolumeratio;
+	double  freeliftkg,freeliftn, acentrate, burstheight, burstvolume, grosslift,balloonsize,area,neckliftdub;
+    double launchvolumenum,payloadnum,launchdiameternum,burstdiameter,burstvolumeratio,totallift,l1,l2,launchdiameterf;
 	String launchvolume;
     String payload;
     double[] cdarray = {.25, .25, .25, .25, .25, .3, .3, .3, .3, .25, .25, .25, .25};
@@ -103,9 +103,16 @@ public void onClick(View v) {
 			String burstheightstring=Double.toString(burstheight);
 			Burstheight.setText(burstheightstring+" Meters");
 			
+			l1=.02905*(Math.PI/6.0);
+			launchdiameterf=launchdiameternum*3.280839895;
+			l2=(l1*(Math.pow(launchdiameterf, 3)))*1000;
+			neckliftdub=l2-payloadnum;
+			String neckliftstring=Double.toString(neckliftdub);
+			necklift.setText(neckliftstring+ "Grams");
+			
 			pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
 			mDbHelper.open();
-			mDbHelper.setpayloadData(flightnumber, payloadnum, 10.0, burstheight, acentrate);
+			mDbHelper.setpayloadData(flightnumber, payloadnum, neckliftdub, burstheight, acentrate);
 		}	
 	}
 

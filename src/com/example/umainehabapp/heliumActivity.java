@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class heliumActivity extends Activity implements View.OnClickListener, OnKeyListener {
 	
-	private pathingDatabase mDbHelper; //creates a database helper object to be used in accessing the database
+	//private pathingDatabase mDbHelper; //creates a database helper object to be used in accessing the database
 
 	 /** Called when the activity is first created. */
     final static double gasdensity = .1786; 
@@ -25,8 +25,8 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     int selection;
     String launchdiameter;
 
-	double balloonweight, freeliftkg,freeliftn, ballooncd, acentrate, burstheight, burstvolume, grosslift,balloonsize,area;
-    double launchvolumenum,payloadnum,launchdiameternum,burstdiameter,burstvolumeratio;
+	double  freeliftkg,freeliftn, acentrate, burstheight, burstvolume, grosslift,balloonsize,area,neckliftdub;
+    double launchvolumenum,payloadnum,launchdiameternum,burstdiameter,burstvolumeratio,totallift,l1,l2,launchdiameterf;
 	String launchvolume;
     String payload;
     double[] cdarray = {.25, .25, .25, .25, .25, .3, .3, .3, .3, .25, .25, .25, .25};
@@ -44,8 +44,7 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.helium);
         
-        Bundle bundle = this.getIntent().getExtras(); //the current selected flight number passed via intent 
-        String flightnumber = bundle.getString("flightnumber");
+
         
         payloadtext= (EditText) findViewById(R.id.payloadweight);
         diameter= (EditText) findViewById(R.id.BalloonDiameter);
@@ -81,6 +80,8 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
 	@Override
 public void onClick(View v) {
 
+		Bundle bundle = this.getIntent().getExtras(); //the current selected flight number passed via intent 
+	        String flightnumber = bundle.getString("flightnumber");
 		if(v == this.calculate){
 			launchdiameter=diameter.getText().toString();
 			payload=payloadtext.getText().toString();
@@ -102,8 +103,16 @@ public void onClick(View v) {
 			String burstheightstring=Double.toString(burstheight);
 			Burstheight.setText(burstheightstring+" Meters");
 			
-			//pathingDatabase mDbHelper; //creates a database helper object to be used in accessing the database
-			//mDbHelper.setpayloadData(flightnumber, payloadweight, neck_weight, burst_height, ascent_rate);
+			l1=.02905*(Math.PI/6.0);
+			launchdiameterf=launchdiameternum*3.280839895;
+			l2=(l1*(Math.pow(launchdiameterf, 3)))*1000;
+			neckliftdub=l2-payloadnum;
+			String neckliftstring=Double.toString(neckliftdub);
+			necklift.setText(neckliftstring+ "Grams");
+			
+			pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
+			mDbHelper.open();
+			mDbHelper.setpayloadData(flightnumber, payloadnum, neckliftdub, burstheight, acentrate);
 		}	
 	}
 

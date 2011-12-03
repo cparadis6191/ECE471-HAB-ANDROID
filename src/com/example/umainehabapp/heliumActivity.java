@@ -1,5 +1,6 @@
 package com.example.umainehabapp;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import android.app.Activity;
@@ -95,22 +96,28 @@ public void onClick(View v) {
 			freeliftn=freeliftkg*9.81;
 			area=Math.PI*Math.pow(launchdiameternum/2.0, 2);
 			acentrate=Math.sqrt(freeliftn/(.5*cdarray[selection]*airdensity*area));
-			String acentratestring=Double.toString(acentrate); 
-			Ascentrate.setText(acentratestring+" Meters/S");
+			String acentratestring=Double.toString(roundTwoDecimals(acentrate)); 
+			if(Double.isNaN(acentrate))
+			Ascentrate.setText("Balloon Configuration Not Possible");
+			else
+			Ascentrate.setText("Ascent Rate: "+acentratestring+" Meters/S");
 			
 			burstdiameter=burstdiameterarray[selection];
 			burstvolume=(((4.0/3.0)*Math.PI)*Math.pow(burstdiameter/2.0, 3));
 			burstvolumeratio=burstvolume/launchvolumenum;
 			burstheight=-(densitymodel*Math.log(1/burstvolumeratio));
-			String burstheightstring=Double.toString(burstheight);
-			Burstheight.setText(burstheightstring+" Meters");
+			String burstheightstring=Double.toString(roundTwoDecimals(burstheight));
+			Burstheight.setText("Burstheight: " +burstheightstring+" Meters");
 			
 			l1=.02905*(Math.PI/6.0);
 			launchdiameterf=launchdiameternum*3.280839895;
 			l2=(l1*(Math.pow(launchdiameterf, 3)))*1000;
 			neckliftdub=l2-payloadnum;
-			String neckliftstring=Double.toString(neckliftdub);
-			necklift.setText(neckliftstring+ " Grams");
+			String neckliftstring=Double.toString(roundTwoDecimals(neckliftdub));
+			if(neckliftdub<0)
+			necklift.setText("Negative Necklift: Number not attainable");	
+			else
+			necklift.setText("Necklift: "+ neckliftstring+ " Grams");
 			
 			pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
 			mDbHelper.open();
@@ -123,4 +130,9 @@ public void onClick(View v) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+double roundTwoDecimals(double d) {
+    DecimalFormat twoDForm = new DecimalFormat("#.##");
+return Double.valueOf(twoDForm.format(d));
+}
 }

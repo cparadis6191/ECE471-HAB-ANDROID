@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -14,7 +15,10 @@ public class umainehabappActivity extends Activity {
 	private pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
     	
     /** Called when the activity is first created. */
-    @Override
+
+	
+	
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainview);
@@ -49,10 +53,19 @@ public class umainehabappActivity extends Activity {
         
         populatespnFlightNumber(); //populate the spinner
 
-    }
-
     
-    void populatespnFlightNumber() { //populates the spinner
+
+    	final Button habhubbutton = (Button) findViewById(R.id.habhub);
+    	habhubbutton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		Intent intenttohabhub = new Intent(umainehabappActivity.this, habhub.class);
+        		startActivity(intenttohabhub);
+        	}});
+    	
+    }
+    	
+    	
+    	void populatespnFlightNumber() { //populates the spinner
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
         Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
         startManagingCursor(FNcur);

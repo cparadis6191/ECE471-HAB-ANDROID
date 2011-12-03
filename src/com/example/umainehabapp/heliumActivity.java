@@ -1,5 +1,7 @@
 package com.example.umainehabapp;
 
+import java.text.NumberFormat;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -24,7 +26,7 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     final static double densitymodel = 7238.3;
     int selection;
     String launchdiameter;
-
+    NumberFormat nf = NumberFormat.getInstance();
 	double  freeliftkg,freeliftn, acentrate, burstheight, burstvolume, grosslift,balloonsize,area,neckliftdub;
     double launchvolumenum,payloadnum,launchdiameternum,burstdiameter,burstvolumeratio,totallift,l1,l2,launchdiameterf;
 	String launchvolume;
@@ -108,7 +110,7 @@ public void onClick(View v) {
 			l2=(l1*(Math.pow(launchdiameterf, 3)))*1000;
 			neckliftdub=l2-payloadnum;
 			String neckliftstring=Double.toString(neckliftdub);
-			necklift.setText(neckliftstring+ "Grams");
+			necklift.setText(neckliftstring+ " Grams");
 			
 			pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
 			mDbHelper.open();

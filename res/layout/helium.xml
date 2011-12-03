@@ -2,7 +2,7 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" android:background="@drawable/calculator">
 
     <EditText
         android:id="@+id/payloadweight"
@@ -35,20 +35,20 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
-        android:text="NeckLift" />
+        android:text="NeckLift" android:textColor="#FFFFFF" android:shadowDx="2" android:shadowDy="2" android:shadowRadius="1.5" android:shadowColor="#000"/>
 
     <TextView
         android:id="@+id/ascentrate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.27"
-        android:text="AscentRate" />
+        android:text="AscentRate" android:textColor="#FFFFFF" android:shadowColor="#000" android:shadowDx="2" android:shadowDy="2" android:shadowRadius="1.5"/>
 
     <TextView
         android:id="@+id/burst"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.26"
-        android:text="Burstheight" android:keepScreenOn="true"/>
+        android:text="Burstheight" android:keepScreenOn="true" android:textColor="#FFFFFF" android:shadowColor="#000" android:shadowDx="2" android:shadowDy="2" android:shadowRadius="1.5"/>
 
 </LinearLayout>

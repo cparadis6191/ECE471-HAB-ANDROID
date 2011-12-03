@@ -16,13 +16,14 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int gpspin_cyan=0x7f020000;
-        public static final int gpspin_green=0x7f020001;
-        public static final int gpspin_purple=0x7f020002;
-        public static final int gpspin_red=0x7f020003;
-        public static final int helium=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int menubackground=0x7f020006;
+        public static final int calculator=0x7f020000;
+        public static final int gpspin_cyan=0x7f020001;
+        public static final int gpspin_green=0x7f020002;
+        public static final int gpspin_purple=0x7f020003;
+        public static final int gpspin_red=0x7f020004;
+        public static final int helium=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int menubackground=0x7f020007;
     }
     public static final class id {
         public static final int BalloonDiameter=0x7f060002;

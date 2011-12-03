@@ -47,7 +47,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 12; //change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 19; //change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = //payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + //creates table 2
@@ -83,6 +83,14 @@ public class pathingDatabase {
             /* Create a Table in the Database. */
             db.execSQL(TABLE_CREATE1);
             db.execSQL(TABLE_CREATE2);
+            
+        	ContentValues initialValues = new ContentValues();
+        	
+        	Time now = new Time(); //gets the current time
+        	now.setToNow();
+        	
+        	initialValues.put(TIME, now.toString());
+        	db.insert(DATABASE_TABLE1, null, initialValues); //inserts the current time to the database
         }
 
 
@@ -158,7 +166,7 @@ public class pathingDatabase {
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers
     	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
 	    double weight = 45.0;
-	    initialValues.put(PREDICTED_LONG, weight);
+	    //initialValues.put(PREDICTED_LONG, weight);
 	    double weight1 = 45.1;
 	    initialValues.put(PREDICTED_LAT, weight1);
 	    double weight2 = 45.2;

@@ -44,7 +44,7 @@ public class map extends MapActivity {
 		
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.gpspin_cyan);
-		drawable = this.getResources().getDrawable(R.drawable.gpspin_purple);
+		drawable = this.getResources().getDrawable(R.drawable.pinsmall);
 
 		itemizedOverlay = new mapItemizedOverlay(drawable);
 		

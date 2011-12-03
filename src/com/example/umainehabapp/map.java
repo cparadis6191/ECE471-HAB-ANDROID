@@ -52,7 +52,7 @@ public class map extends MapActivity {
 	        GeoPoint predicted = new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG)));
 	        GeoPoint tracked = new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.TRACKED_LAT)),1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.TRACKED_LONG)));
 
-	        OverlayItem overlayitem = new OverlayItem(predicted, "", "");
+	        OverlayItem overlayitem = new OverlayItem(predicted, "blah", "blah");
 	        
 	        itemizedOverlay.addOverlay(overlayitem);
 	        mapOverlays.add(itemizedOverlay);

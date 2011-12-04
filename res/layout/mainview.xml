@@ -22,7 +22,7 @@
             android:text="Track and Predict" />
 
         <Button
-            android:id="@+id/buttonNF"
+            android:id="@+id/btnNF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/spinnerFN"
@@ -43,5 +43,13 @@
  		    android:layout_alignLeft="@+id/btnmap"
  		    android:layout_alignParentRight="true"
  		    android:text="PredictionSite" android:includeFontPadding="true"/>
+
+ 		<Button
+ 		    android:id="@+id/btndeleteFlight"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:layout_alignParentRight="true"
+ 		    android:layout_below="@+id/btnNF"
+ 		    android:text="Delete Flight" />
 
     </RelativeLayout>

@@ -166,7 +166,7 @@ public class pathingDatabase {
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers
     	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
 	    double weight = 45.0;
-	    //initialValues.put(PREDICTED_LONG, weight);
+	    initialValues.put(PREDICTED_LONG, weight);
 	    double weight1 = 45.1;
 	    initialValues.put(PREDICTED_LAT, weight1);
 	    double weight2 = 45.2;
@@ -176,9 +176,9 @@ public class pathingDatabase {
 	    initialValues.put(KEY_ROWID, 1);
 	    
     	ContentValues initialValues1 = new ContentValues();
-	    double weight10 = 46.0;
+	    double weight10 = -68.52;
 	    initialValues1.put(PREDICTED_LONG, weight10);
-	    double weight11 = 46.1;
+	    double weight11 = 45.4;
 	    initialValues1.put(PREDICTED_LAT, weight11);
 	    double weight12 = 46.2;
 	    initialValues1.put(TRACKED_LONG, weight12);

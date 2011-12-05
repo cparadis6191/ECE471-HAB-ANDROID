@@ -16,7 +16,7 @@ public void onCreate(Bundle savedInstanceState) {
     setContentView(R.layout.habhub);
     mWebView = (WebView) findViewById(R.id.webview);
     mWebView.getSettings().setJavaScriptEnabled(true);
-    mWebView.loadUrl("http://habhub.org/");
+    mWebView.loadUrl("http://weather.uwyo.edu/polar/balloon_traj.html");
     mWebView.setWebViewClient(new habhubviewer());
 }
 

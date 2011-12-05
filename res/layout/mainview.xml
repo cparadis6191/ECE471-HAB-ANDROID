@@ -11,8 +11,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:text="Calculate Lift" />
-
+            android:text="Calculate Lift"/>
+			
         <Button
             android:id="@+id/btnmap"
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
  		    android:layout_above="@+id/btnmap"
  		    android:layout_alignLeft="@+id/btnmap"
  		    android:layout_alignParentRight="true"
- 		    android:text="PredictionSite" android:includeFontPadding="true"/>
+ 		    android:text="Prediction Site" android:includeFontPadding="true"/>
 
  		<Button
  		    android:id="@+id/btndeleteFlight"

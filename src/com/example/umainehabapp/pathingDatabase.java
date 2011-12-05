@@ -30,7 +30,8 @@ public class pathingDatabase {
      */
     
     public final static String DATABASE_TABLE1 = "payload_data"; // table containing general flight data
-    public final static String KEY_ROWID = "_id"; // flight number
+    public final static String KEY_ROWID = "_id"; // unique number
+    public final static String FLIGHT_NUMBER = "flight_number";
     public final static String PAYLOAD_WEIGHT = "weight";
     public final static String ASCENT_RATE = "ascent_rate";
     public final static String NECK_WEIGHT = "neck_weight"; // "counterbalance" weight when filling the balloon
@@ -47,12 +48,13 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 28; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 29; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
     		" (" +
     		KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + // this should correspond to the KEY_ROWID of table 1
+    		FLIGHT_NUMBER + " INTEGER, " +
     		PAYLOAD_WEIGHT + " DOUBLE, " + 
     		ASCENT_RATE + " DOUBLE, " + 
     		BURST_ALTITUDE + " DOUBLE, " +
@@ -90,6 +92,7 @@ public class pathingDatabase {
         	now.setToNow();
         	
         	initialValues.put(TIME, now.toString());
+        	initialValues.put(FLIGHT_NUMBER, db.query(DATABASE_TABLE1, new String[] {FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC").getDouble(db.query(DATABASE_TABLE1, new String[] {FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC").getColumnIndex(pathingDatabase.FLIGHT_NUMBER)) + 1);
         	db.insert(DATABASE_TABLE1, null, initialValues); // inserts the current time to the database
         }
 
@@ -138,18 +141,20 @@ public class pathingDatabase {
     
     
     public void incrementFlightNumber() { //starts a new flight, adds a new unique record to payload_data
+    	fetchFlightNumbers().moveToLast();
     	ContentValues initialValues = new ContentValues();
     	
     	Time now = new Time(); //gets the current time
     	now.setToNow();
     	
     	initialValues.put(TIME, now.toString());
+    	initialValues.put(FLIGHT_NUMBER, fetchFlightNumbers().getDouble(fetchFlightNumbers().getColumnIndex(pathingDatabase.FLIGHT_NUMBER)) + 1);
     	mDb.insert(DATABASE_TABLE1, null, initialValues); //inserts the current time to the database
     }
     
     
     public Cursor fetchFlightNumbers() { //fetches all flight numbers
-    	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID}, null, null, null, null, KEY_ROWID + " DESC");
+    	return mDb.query(DATABASE_TABLE1, new String[] {FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC");
     }
     
     

@@ -27,6 +27,7 @@ public class umainehabappActivity extends Activity {
         mDbHelper.open(); //opens the database
         
         final Button btnhelium = (Button) findViewById(R.id.btnhelium); //button with intent to helium activity
+        btnhelium.getBackground().setAlpha(175);
         btnhelium.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		Intent intenthelium = new Intent(umainehabappActivity.this, heliumActivity.class);
@@ -36,6 +37,7 @@ public class umainehabappActivity extends Activity {
         });
         
         final Button btnMap= (Button) findViewById(R.id.btnmap);
+        btnMap.getBackground().setAlpha(175);
         btnMap.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v) {
 				Intent intenttomap = new Intent(umainehabappActivity.this, map.class);
@@ -45,6 +47,7 @@ public class umainehabappActivity extends Activity {
         });
         
         final Button btnNewFlight = (Button) findViewById(R.id.btnNF); //button with intent
+        btnNewFlight.getBackground().setAlpha(175);
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		mDbHelper.incrementFlightNumber(); //increments the flight number
@@ -55,6 +58,7 @@ public class umainehabappActivity extends Activity {
         populatespnFlightNumber(); //populate the spinner
         
     	final Button btndeleteFlight = (Button) findViewById(R.id.btndeleteFlight);
+    	btndeleteFlight.getBackground().setAlpha(175);
     	btndeleteFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		getspnFNvalue();
@@ -64,6 +68,7 @@ public class umainehabappActivity extends Activity {
     
 
     	final Button habhubbutton = (Button) findViewById(R.id.habhub);
+    	habhubbutton.getBackground().setAlpha(175);
     	habhubbutton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		Intent intenttohabhub = new Intent(umainehabappActivity.this, habhub.class);
@@ -74,7 +79,8 @@ public class umainehabappActivity extends Activity {
     	
     void populatespnFlightNumber() { //populates the spinner
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
-        Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
+    	spnFlightNumber.getBackground().setAlpha(175);
+    	Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
         startManagingCursor(FNcur);
 
         String[] from = new String[] {pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display

@@ -50,7 +50,11 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
 
         
         payloadtext= (EditText) findViewById(R.id.payloadweight);
+        if( payloadtext.getText().toString().length() == 0 )     
+            payloadtext.setError( "Payload is required!" );
         diameter= (EditText) findViewById(R.id.BalloonDiameter);
+        if( diameter.getText().toString().length() == 0 )     
+            diameter.setError( "Diameter is required!" );
         calculate = (Button) findViewById(R.id.HeliumCalc);
         necklift = (TextView) findViewById(R.id.necklift);
         Ascentrate= (TextView) findViewById(R.id.ascentrate);
@@ -85,7 +89,7 @@ public void onClick(View v) {
 
 		Bundle bundle = this.getIntent().getExtras(); //the current selected flight number passed via intent 
 	        String flightnumber = bundle.getString("flightnumber");
-		if(v == this.calculate){
+		if(v == this.calculate&&diameter.getText().toString().length()!=0&&payloadtext.getText().toString().length()!=0){
 			launchdiameter=diameter.getText().toString();
 			payload=payloadtext.getText().toString();
 			payloadnum=Double.parseDouble(payload);
@@ -107,6 +111,9 @@ public void onClick(View v) {
 			burstvolumeratio=burstvolume/launchvolumenum;
 			burstheight=-(densitymodel*Math.log(1/burstvolumeratio));
 			String burstheightstring=Double.toString(roundTwoDecimals(burstheight));
+			if(burstheight<0)
+			Burstheight.setText("Burstheight is less then 0");	
+			else	
 			Burstheight.setText("Burstheight: " +burstheightstring+" Meters");
 			
 			l1=.02905*(Math.PI/6.0);

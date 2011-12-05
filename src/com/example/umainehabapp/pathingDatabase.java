@@ -207,9 +207,9 @@ public class pathingDatabase {
 	    initialValues2.put(KEY_ROWID, 1);
 	    
     	ContentValues initialValues1 = new ContentValues();
-	    double weight10 = 46.0;
+	    double weight10 = -68.52;
 	    initialValues1.put(PREDICTED_LONG, weight10);
-	    double weight11 = 46.1;
+	    double weight11 = 45.4;
 	    initialValues1.put(PREDICTED_LAT, weight11);
 	    double weight12 = 46.2;
 	    initialValues1.put(TRACKED_LONG, weight12);

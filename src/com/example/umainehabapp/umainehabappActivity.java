@@ -1,14 +1,15 @@
 package com.example.umainehabapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class umainehabappActivity extends Activity {
 	
@@ -43,7 +44,7 @@ public class umainehabappActivity extends Activity {
 			}
         });
         
-        final Button btnNewFlight = (Button) findViewById(R.id.buttonNF); //button with intent
+        final Button btnNewFlight = (Button) findViewById(R.id.btnNF); //button with intent
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		mDbHelper.incrementFlightNumber(); //increments the flight number
@@ -52,7 +53,14 @@ public class umainehabappActivity extends Activity {
 		});
         
         populatespnFlightNumber(); //populate the spinner
-
+        
+    	final Button btndeleteFlight = (Button) findViewById(R.id.btndeleteFlight);
+    	btndeleteFlight.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		getspnFNvalue();
+        		mDbHelper.deleteFlight(getspnFNvalue());
+        		populatespnFlightNumber();
+        	}});
     
 
     	final Button habhubbutton = (Button) findViewById(R.id.habhub);
@@ -61,11 +69,10 @@ public class umainehabappActivity extends Activity {
         		Intent intenttohabhub = new Intent(umainehabappActivity.this, habhub.class);
         		startActivity(intenttohabhub);
         	}});
-    	
     }
     	
     	
-    	void populatespnFlightNumber() { //populates the spinner
+    void populatespnFlightNumber() { //populates the spinner
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
         Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
         startManagingCursor(FNcur);
@@ -91,7 +98,10 @@ public class umainehabappActivity extends Activity {
 	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter filled with data from the database
 	    FNadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         
-        Cursor cursor = (Cursor) FNadapter.getItem(spnFlightNumber.getSelectedItemPosition());
-        return cursor.getString(cursor.getColumnIndex(pathingDatabase.KEY_ROWID));
+	    Cursor cursor = (Cursor) FNadapter.getItem(spnFlightNumber.getSelectedItemPosition());
+	    
+        String selecteditem = cursor.getString(cursor.getColumnIndex(pathingDatabase.KEY_ROWID));
+        
+        return selecteditem;
     }
 }

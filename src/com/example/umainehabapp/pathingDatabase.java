@@ -48,7 +48,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 29; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 49; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -80,9 +80,6 @@ public class pathingDatabase {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            //db.execSQL(DATABASE_CREATE);
-            
-            /* Create a Table in the Database. */
             db.execSQL(TABLE_CREATE1);
             db.execSQL(TABLE_CREATE2);
             
@@ -91,8 +88,10 @@ public class pathingDatabase {
         	Time now = new Time(); // gets the current time
         	now.setToNow();
         	
+        	//Cursor cur = db.query(DATABASE_TABLE1, new String[] {FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC");
+        	
         	initialValues.put(TIME, now.toString());
-        	initialValues.put(FLIGHT_NUMBER, db.query(DATABASE_TABLE1, new String[] {FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC").getDouble(db.query(DATABASE_TABLE1, new String[] {FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC").getColumnIndex(pathingDatabase.FLIGHT_NUMBER)) + 1);
+        	initialValues.put(FLIGHT_NUMBER, 1);
         	db.insert(DATABASE_TABLE1, null, initialValues); // inserts the current time to the database
         }
 
@@ -140,24 +139,6 @@ public class pathingDatabase {
     }
     
     
-    public void incrementFlightNumber() { //starts a new flight, adds a new unique record to payload_data
-    	fetchFlightNumbers().moveToLast();
-    	ContentValues initialValues = new ContentValues();
-    	
-    	Time now = new Time(); //gets the current time
-    	now.setToNow();
-    	
-    	initialValues.put(TIME, now.toString());
-    	initialValues.put(FLIGHT_NUMBER, fetchFlightNumbers().getDouble(fetchFlightNumbers().getColumnIndex(pathingDatabase.FLIGHT_NUMBER)) + 1);
-    	mDb.insert(DATABASE_TABLE1, null, initialValues); //inserts the current time to the database
-    }
-    
-    
-    public Cursor fetchFlightNumbers() { //fetches all flight numbers
-    	return mDb.query(DATABASE_TABLE1, new String[] {FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC");
-    }
-    
-    
     public void setpayloadData(String flightnumber, Double weight, Double neck_weight, Double burst_height, Double ascent_rate) {
     	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
 	    initialValues.put(PAYLOAD_WEIGHT, weight);
@@ -168,18 +149,40 @@ public class pathingDatabase {
     	mDb.update(DATABASE_TABLE1, initialValues, KEY_ROWID + " = " + flightnumber, null);
     }
     
-    public void deleteFlight(String flightnumber) { //deletes flight number (used with the spinner on front page)
-    	if (mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID}, null, null, null, null, null).getCount() != 1) {
-       		mDb.delete(DATABASE_TABLE1, KEY_ROWID + " = " + flightnumber, null);
-    	} else {
-        	ContentValues initialValues = new ContentValues();
-        	
-        	Time now = new Time(); //gets the current time
-        	now.setToNow();
-        	
-        	initialValues.put(TIME, now.toString());
-        	mDb.update(DATABASE_TABLE1, initialValues, KEY_ROWID + " = 1", null);
+
+	public void newFlight() { //starts a new flight, adds a new unique record to payload_data
+		ContentValues initialValues = new ContentValues();
+		Cursor cur = fetchFlightNumbers();
+		
+		if (cur.moveToFirst()) {
+			initialValues.put(FLIGHT_NUMBER, cur.getDouble(cur.getColumnIndex(pathingDatabase.FLIGHT_NUMBER)) + 1);
+		}	else initialValues.put(FLIGHT_NUMBER, 1);
+			
+			Time now = new Time(); //gets the current time
+			now.setToNow();
+			
+			initialValues.put(TIME, now.toString());
+			mDb.insert(DATABASE_TABLE1, null, initialValues); //inserts the current time to the database
+	}
+
+
+	public void deleteFlight(String flightnumber) { //deletes flight number (used with the spinner on front page)
+    	/*ContentValues initialValues = new ContentValues();
+    	
+    	Time now = new Time(); //gets the current time
+    	now.setToNow();
+    	
+    	initialValues.put(TIME, now.toString());*/
+    	mDb.delete(DATABASE_TABLE1, KEY_ROWID + " = " + flightnumber, null);
+    	
+    	if (!fetchFlightNumbers().moveToLast()) {
+       		newFlight();
     	}
+    }
+    
+
+    public Cursor fetchFlightNumbers() { //fetches all flight numbers
+    	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID, FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC");
     }
     
     

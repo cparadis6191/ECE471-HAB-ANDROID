@@ -50,7 +50,7 @@ public class umainehabappActivity extends Activity {
         btnNewFlight.getBackground().setAlpha(175);
         btnNewFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
-        		mDbHelper.incrementFlightNumber(); //increments the flight number
+        		mDbHelper.newFlight(); //increments the flight number
         		populatespnFlightNumber(); //updates the spinner so the new flight is shown
 			}
 		});
@@ -83,7 +83,7 @@ public class umainehabappActivity extends Activity {
     	Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
         startManagingCursor(FNcur);
 
-        String[] from = new String[] {pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
+        String[] from = new String[] {pathingDatabase.FLIGHT_NUMBER}; // create an array to specify which fields we want to display
 	    int[] to = new int[] {android.R.id.text1}; // create an array of the display item we want to bind our data to
 
 	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter

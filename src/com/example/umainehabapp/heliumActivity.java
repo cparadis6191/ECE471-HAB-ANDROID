@@ -89,7 +89,7 @@ public void onClick(View v) {
 
 		Bundle bundle = this.getIntent().getExtras(); //the current selected flight number passed via intent 
 	        String flightnumber = bundle.getString("flightnumber");
-		if(v == this.calculate&&diameter.getText().toString().length()!=0&&payloadtext.getText().toString().length()!=0){
+		if(v == this.calculate && diameter.getText().toString().length()!=0 && payloadtext.getText().toString().length() != 0) {
 			launchdiameter=diameter.getText().toString();
 			payload=payloadtext.getText().toString();
 			payloadnum=Double.parseDouble(payload);
@@ -121,10 +121,10 @@ public void onClick(View v) {
 			l2=(l1*(Math.pow(launchdiameterf, 3)))*1000;
 			neckliftdub=l2-payloadnum;
 			String neckliftstring=Double.toString(roundTwoDecimals(neckliftdub));
-			if(neckliftdub<0)
+			if(neckliftdub < 0)
 			necklift.setText("Negative Necklift: Number not attainable");	
 			else
-			necklift.setText("Necklift: "+ neckliftstring+ " Grams");
+			necklift.setText("Necklift: " + neckliftstring + " Grams");
 			
 			pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
 			mDbHelper.open();
@@ -137,9 +137,9 @@ public void onClick(View v) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-double roundTwoDecimals(double d) {
-    DecimalFormat twoDForm = new DecimalFormat("#.##");
-return Double.valueOf(twoDForm.format(d));
-}
+	
+	double roundTwoDecimals(double d) {
+	    DecimalFormat twoDForm = new DecimalFormat("#.##");
+	    return Double.valueOf(twoDForm.format(d));
+	}
 }

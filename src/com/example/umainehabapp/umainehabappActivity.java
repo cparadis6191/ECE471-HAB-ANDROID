@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -69,6 +70,8 @@ public class umainehabappActivity extends Activity {
 
     	final Button habhubbutton = (Button) findViewById(R.id.habhub);
     	habhubbutton.getBackground().setAlpha(175);
+ 
+
     	habhubbutton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		Intent intenttohabhub = new Intent(umainehabappActivity.this, habhub.class);

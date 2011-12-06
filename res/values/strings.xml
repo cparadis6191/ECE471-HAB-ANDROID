@@ -7,7 +7,7 @@
     <!-- Strings for helium activity -->
     <string name="hintascentrate">Target Ascent Rate</string>
     <string name="hintburstaltitude">Target Burst Altitude</string>
-    <string name="hintpayloadweight">Payload Weight</string>
+    <string name="hintpayloadweight">Payload Weight (Grams)</string>
     
     <!-- Strings for mapping activity -->
     <string-array name="helium_spinner">

@@ -17,7 +17,7 @@
         android:id="@+id/BalloonDiameter"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal" android:hint="Balloon Diameter"/>
+        android:inputType="numberDecimal" android:hint="Balloon Diameter (Meters)"/>
 
     <Spinner
         android:id="@+id/heliumspinner"

@@ -50,11 +50,7 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
 
         
         payloadtext= (EditText) findViewById(R.id.payloadweight);
-        if( payloadtext.getText().toString().length() == 0 )     
-            payloadtext.setError( "Payload is required!" );
         diameter= (EditText) findViewById(R.id.BalloonDiameter);
-        if( diameter.getText().toString().length() == 0 )     
-            diameter.setError( "Diameter is required!" );
         calculate = (Button) findViewById(R.id.HeliumCalc);
         necklift = (TextView) findViewById(R.id.necklift);
         Ascentrate= (TextView) findViewById(R.id.ascentrate);
@@ -89,7 +85,11 @@ public void onClick(View v) {
 
 		Bundle bundle = this.getIntent().getExtras(); //the current selected flight number passed via intent 
 	        String flightnumber = bundle.getString("flightnumber");
-		if(v == this.calculate && diameter.getText().toString().length()!=0 && payloadtext.getText().toString().length() != 0) {
+			if( diameter.getText().toString().length() == 0 )     
+	            diameter.setError( "Diameter is required!" );
+			if( payloadtext.getText().toString().length() == 0 )     
+	            payloadtext.setError( "Payload is required!" );
+			if(v == this.calculate && diameter.getText().toString().length()!=0 && payloadtext.getText().toString().length() != 0) {
 			launchdiameter=diameter.getText().toString();
 			payload=payloadtext.getText().toString();
 			payloadnum=Double.parseDouble(payload);

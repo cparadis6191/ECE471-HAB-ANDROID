@@ -40,7 +40,6 @@ public class map extends MapActivity {
         
         Cursor cur = mDbHelper.fetchGPSData(flightnumber); //fills the cursor from the database
 		startManagingCursor(cur);
-		//cur.moveToFirst();
 		
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.pinsmall);

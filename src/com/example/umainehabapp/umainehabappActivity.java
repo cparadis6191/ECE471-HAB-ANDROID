@@ -62,6 +62,13 @@ public class umainehabappActivity extends Activity {
     	btndeleteFlight.getBackground().setAlpha(175);
     	btndeleteFlight.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
+        		Context context = getApplicationContext();
+        		CharSequence text = getspnFNvalue();
+        		int duration = Toast.LENGTH_SHORT;
+
+        		Toast toast = Toast.makeText(context, text, duration);
+        		toast.show();        		
+        		
         		getspnFNvalue();
         		mDbHelper.deleteFlight(getspnFNvalue());
         		populatespnFlightNumber();
@@ -86,8 +93,8 @@ public class umainehabappActivity extends Activity {
     	Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
         startManagingCursor(FNcur);
 
-        String[] from = new String[] {pathingDatabase.FLIGHT_NUMBER}; // create an array to specify which fields we want to display
-	    int[] to = new int[] {android.R.id.text1}; // create an array of the display item we want to bind our data to
+        String[] from = new String[] {pathingDatabase.FLIGHT_NUMBER, pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
+	    int[] to = new int[] {android.R.id.text1, android.R.id.text2}; // create an array of the display item we want to bind our data to
 
 	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter
 	    FNadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -96,13 +103,13 @@ public class umainehabappActivity extends Activity {
 	}
     
     
-    String getspnFNvalue() {
+    String getspnFNvalue() { // returns the value of the selected item
     	final Spinner spnFlightNumber = (Spinner) findViewById(R.id.spinnerFN); // get reference to our spinner
         Cursor FNcur = mDbHelper.fetchFlightNumbers(); //fills the spinner from the database
         startManagingCursor(FNcur);
 
-        String[] from = new String[] {pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
-	    int[] to = new int[] {android.R.id.text1}; // create an array of the display item we want to bind our data to
+        String[] from = new String[] {pathingDatabase.FLIGHT_NUMBER, pathingDatabase.KEY_ROWID}; // create an array to specify which fields we want to display
+	    int[] to = new int[] {android.R.id.text1, android.R.id.text2}; // create an array of the display item we want to bind our data to
 
 	    SimpleCursorAdapter FNadapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, FNcur, from, to); // create simple cursor adapter filled with data from the database
 	    FNadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

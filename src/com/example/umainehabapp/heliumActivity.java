@@ -85,11 +85,15 @@ public void onClick(View v) {
 
 		Bundle bundle = this.getIntent().getExtras(); //the current selected flight number passed via intent 
 	        String flightnumber = bundle.getString("flightnumber");
+<<<<<<< HEAD
 			if( diameter.getText().toString().length() == 0 )     
 	            diameter.setError( "Diameter is required!" );
 			if( payloadtext.getText().toString().length() == 0 )     
 	            payloadtext.setError( "Payload is required!" );
 			if(v == this.calculate && diameter.getText().toString().length()!=0 && payloadtext.getText().toString().length() != 0) {
+=======
+		if(v == this.calculate && diameter.getText().toString().length() !=0 && payloadtext.getText().toString().length() != 0) {
+>>>>>>> 4dc271eb3d5569a681613eba5ff16554d159c556
 			launchdiameter=diameter.getText().toString();
 			payload=payloadtext.getText().toString();
 			payloadnum=Double.parseDouble(payload);

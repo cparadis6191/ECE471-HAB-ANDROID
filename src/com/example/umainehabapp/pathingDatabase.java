@@ -34,7 +34,7 @@ public class pathingDatabase {
     public final static String FLIGHT_NUMBER = "flight_number";
     public final static String PAYLOAD_WEIGHT = "weight";
     public final static String ASCENT_RATE = "ascent_rate";
-    public final static String NECK_WEIGHT = "neck_weight"; // "counterbalance" weight when filling the balloon
+    public final static String NECK_LIFT = "neck_LIFT"; // "counterbalance" weight when filling the balloon
     public final static String BURST_ALTITUDE = "burst_altitude";
     public final static String DATE = "date";
     
@@ -48,7 +48,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 78; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 79; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -58,7 +58,7 @@ public class pathingDatabase {
     		PAYLOAD_WEIGHT + " DOUBLE, " + 
     		ASCENT_RATE + " DOUBLE, " + 
     		BURST_ALTITUDE + " DOUBLE, " +
-    		NECK_WEIGHT + " DOUBLE, " +
+    		NECK_LIFT + " DOUBLE, " +
     		TIME + " TEXT);";
     
     public final static String TABLE_CREATE2 = // gps_data
@@ -142,11 +142,16 @@ public class pathingDatabase {
     public void setpayloadData(String flightnumber, Double weight, Double neck_weight, Double burst_height, Double ascent_rate) {
     	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
 	    initialValues.put(PAYLOAD_WEIGHT, weight);
-	    initialValues.put(NECK_WEIGHT, neck_weight);
+	    initialValues.put(NECK_LIFT, neck_weight);
 	    initialValues.put(BURST_ALTITUDE, burst_height);
 	    initialValues.put(ASCENT_RATE, ascent_rate);
 	    
     	mDb.update(DATABASE_TABLE1, initialValues, KEY_ROWID + " = " + flightnumber, null);
+    }
+    
+    
+    public Cursor getpayloadData(String flightnumber) {
+    	return mDb.query(DATABASE_TABLE1, new String[] {ASCENT_RATE, NECK_LIFT, BURST_ALTITUDE}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
     }
     
 
@@ -168,9 +173,6 @@ public class pathingDatabase {
 
 	public void deleteFlight(String flightnumber) { //deletes flight number (used with the spinner on front page)
     	ContentValues initialValues = new ContentValues();
-    	
-    	/*Time now = new Time(); //gets the current time
-    	now.setToNow();*/
     	
     	initialValues.put(FLIGHT_NUMBER, "-1");
     	mDb.update(DATABASE_TABLE1, initialValues, KEY_ROWID + " = " + flightnumber, null);

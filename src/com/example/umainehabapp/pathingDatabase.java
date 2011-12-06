@@ -48,7 +48,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 49; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 78; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -64,7 +64,7 @@ public class pathingDatabase {
     public final static String TABLE_CREATE2 = // gps_data
     		"CREATE TABLE " + DATABASE_TABLE2 + // creates table 1
     		" (" +
-    		KEY_ROWID + " INT, " + // these are the different fields
+    		KEY_ROWID + " INTEGER, " + // these are the different fields
     		TRACKED_LONG + " DOUBLE, " + // tracked gps data
     		TRACKED_LAT + " DOUBLE, " + // tracked gps data
     		PREDICTED_LONG + " DOUBLE, " + // predicted gps data
@@ -167,13 +167,13 @@ public class pathingDatabase {
 
 
 	public void deleteFlight(String flightnumber) { //deletes flight number (used with the spinner on front page)
-    	/*ContentValues initialValues = new ContentValues();
+    	ContentValues initialValues = new ContentValues();
     	
-    	Time now = new Time(); //gets the current time
-    	now.setToNow();
+    	/*Time now = new Time(); //gets the current time
+    	now.setToNow();*/
     	
-    	initialValues.put(TIME, now.toString());*/
-    	mDb.delete(DATABASE_TABLE1, KEY_ROWID + " = " + flightnumber, null);
+    	initialValues.put(FLIGHT_NUMBER, "-1");
+    	mDb.update(DATABASE_TABLE1, initialValues, KEY_ROWID + " = " + flightnumber, null);
     	
     	if (!fetchFlightNumbers().moveToLast()) {
        		newFlight();
@@ -182,7 +182,7 @@ public class pathingDatabase {
     
 
     public Cursor fetchFlightNumbers() { //fetches all flight numbers
-    	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID, FLIGHT_NUMBER}, null, null, null, null, KEY_ROWID + " DESC");
+    	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID, FLIGHT_NUMBER}, FLIGHT_NUMBER + " != '-1'", null, null, null, KEY_ROWID + " DESC");
     }
     
     
@@ -196,7 +196,7 @@ public class pathingDatabase {
 	    initialValues.put(TRACKED_LONG, weight2);
 	    double weight3 = 45.3;
 	    initialValues.put(TRACKED_LAT,  weight3);
-	    initialValues.put(KEY_ROWID, 1);
+	    initialValues.put(KEY_ROWID, 6);
 	    
 	    ContentValues initialValues2 = new ContentValues(); //adds some test cases to the database
 	    double weight22 = 49.4;
@@ -207,10 +207,10 @@ public class pathingDatabase {
 	    initialValues2.put(TRACKED_LONG, weight222);
 	    double weight23 = 49.4;
 	    initialValues2.put(TRACKED_LAT,  weight23);
-	    initialValues2.put(KEY_ROWID, 1);
+	    initialValues2.put(KEY_ROWID, 5);
 	    
     	ContentValues initialValues1 = new ContentValues();
-	    double weight10 = -68.52;
+	    double weight10 = 46.2;
 	    initialValues1.put(PREDICTED_LONG, weight10);
 	    double weight11 = 45.4;
 	    initialValues1.put(PREDICTED_LAT, weight11);
@@ -218,7 +218,7 @@ public class pathingDatabase {
 	    initialValues1.put(TRACKED_LONG, weight12);
 	    double weight13 = 46.3;
 	    initialValues1.put(TRACKED_LAT,  weight13);
-	    initialValues1.put(KEY_ROWID, 1);
+	    initialValues1.put(KEY_ROWID, 4);
 	    
 	    mDb.insert(DATABASE_TABLE2, null, initialValues1);
 	    mDb.insert(DATABASE_TABLE2, null, initialValues2);

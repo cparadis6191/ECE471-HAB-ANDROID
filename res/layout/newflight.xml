@@ -5,18 +5,6 @@
     android:layout_alignLeft="@+id/btnConfirmAddFlight"
     android:layout_centerVertical="true" >
 	
-	    <TextView
-	        android:id="@+id/launchlat"
-	        android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:textColor="#FFF" />
-	
-	    <TextView
-	        android:id="@+id/launchlong"
-	        android:layout_width="wrap_content"
-	        android:layout_height="fill_parent"
-	        android:textColor="#FFF" />
-	
 	    <EditText
 	        android:id="@+id/editTextlaunchlong"
 	        android:layout_width="fill_parent"
@@ -37,29 +25,5 @@
 	        android:layout_below="@+id/editTextlaunchlong"
 	        android:hint="Launch Latitude..."
 	        android:inputType="numberDecimal" />
-	
-	    <Button
-	        android:id="@+id/btnCancelAddFlight"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignRight="@+id/editTextlaunchlat"
-	        android:layout_below="@+id/editTextlaunchlat"
-	        android:text="Cancel" />
-	
-	    <Button
-	        android:id="@+id/btnConfirmAddFlight"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/editTextlaunchlat"
-	        android:layout_toLeftOf="@+id/btnCancelAddFlight"
-	        android:text="Add New Flight" />
-	
-	    <FrameLayout
-	        android:id="@+id/frameLayout1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/btnConfirmAddFlight"
-	        android:layout_centerVertical="true" >
-	    </FrameLayout>
 	
 	</RelativeLayout>

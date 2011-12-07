@@ -12,7 +12,6 @@ import org.apache.http.util.ByteArrayBuffer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,9 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class umainehabappActivity extends Activity {
 	
@@ -67,10 +66,10 @@ public class umainehabappActivity extends Activity {
 	    btnNewFlight.getBackground().setAlpha(175);
 	    btnNewFlight.setOnClickListener(new View.OnClickListener() {
 	    	public void onClick(View v) {
-	    		showAddFlightDialog();
+	    		showAddFlightDialog2();
 	    		
-	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=2011120612&FCST=6&POINT=none&LAT=45&LON=45&TOP=30000&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
-	    		//DownloadFromUrl(URL, "blah.txt");
+	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=2011120712&FCST=12&POINT=none&LAT=46&LON=45&TOP=30000&OUTPUT=list&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
+	    		DownloadFromUrl(URL, "blah.txt");
 			}
 		});
 	    
@@ -132,6 +131,12 @@ public class umainehabappActivity extends Activity {
 	}
 	
 	
+	public void KMLParser(String KML) {
+		
+		
+	}
+	
+	
 	public void DownloadFromUrl(String KMLURL, String fileName) {  //this is the downloader method
 		final String PATH = "/data/data/com.example.umainehabapp/";  //put the downloaded file here
 	    try {
@@ -161,6 +166,7 @@ public class umainehabappActivity extends Activity {
 			}
 			
 			baf.toByteArray();
+			String blah = new String(baf.toByteArray());
 			
 			/* Convert the Bytes read to a String. */
 			FileOutputStream fos = new FileOutputStream(file);
@@ -170,6 +176,13 @@ public class umainehabappActivity extends Activity {
 			Log.d("KMLDownloader", "download ready in"
 			+ ((System.currentTimeMillis() - startTime) / 1000)
 				+ " sec");
+			
+			Context context = getApplicationContext();
+			CharSequence text = "Hello toast!";
+			int duration = Toast.LENGTH_SHORT;
+
+			Toast toast = Toast.makeText(context, blah, duration);
+			toast.show();
 
 	    } catch (IOException e) {
 	            Log.d("KMLDownloader", "Error: " + e);
@@ -202,57 +215,21 @@ public class umainehabappActivity extends Activity {
 		helpDialog.show();
 	
 		}
-	
-	public void showAddFlightDialog() { // shows an add flight dialog
-		final Dialog helpBuilder = new Dialog(this);
-		
-		helpBuilder.setCanceledOnTouchOutside(true);
-		helpBuilder.setCancelable(true); // cancelable with back button
-		
-		helpBuilder.setTitle("Please supply additional info");
-		
-	   	helpBuilder.setContentView(R.layout.newflight);
 
-		final EditText editLaunchLat = (EditText) findViewById(R.id.editTextlaunchlat); // makes the latitude text box show up
-		final EditText editLaunchLong = (EditText) findViewById(R.id.editTextlaunchlong); // makes the latitude text box show up
-		
-	    final Button btnConfirm= (Button) helpBuilder.findViewById(R.id.btnConfirmAddFlight);
-	    btnConfirm.setOnClickListener(new View.OnClickListener(){
-			public void onClick(View v) {
-				mDbHelper.newFlight(); // add new flight to the database
-			  	populatespnFlightNumber(); // repopulate the spinner to add the new flight
-			  	
-			  	helpBuilder.dismiss();
-			}
-	    });
-	    
-	    final Button btnCancel= (Button) helpBuilder.findViewById(R.id.btnCancelAddFlight);
-	    btnCancel.setOnClickListener(new View.OnClickListener(){
-			public void onClick(View v) {
-				helpBuilder.dismiss();
-			}
-	    });
-   	 
-   	 helpBuilder.show();
-
-   	}
 	
 	public void showAddFlightDialog2() { // shows an add flight dialog
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
 		
-		//LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		//LinearLayout ll = (LinearLayout) this.findViewById(R.id.newflightRelativeLayout);
+		Context mContext = getApplicationContext();
+		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.newflight, (ViewGroup) findViewById(R.id.editTextlaunchlat));
 		
-        //View item = inflater.inflate(R.layout.newflight, null);
-        //EditText x = (EditText) item.findViewById(R.id.editTextlaunchlat);
-        //ll.addView(item,ViewGroup.LayoutParams.WRAP_CONTENT);
-		
+		final EditText editTextlong = (EditText) layout.findViewById(R.id.editTextlaunchlat);
+		final EditText editTextlat = (EditText) layout.findViewById(R.id.editTextlaunchlat);
+
 		helpBuilder.setTitle("Add New Flight");
 		helpBuilder.setMessage("Please provide some additional information for this new flight");
 		 
-		final EditText editLaunchLat = (EditText) findViewById(R.id.editTextlaunchlat); // makes the latitude text box show up
-		final EditText editLaunchLong = (EditText) findViewById(R.id.editTextlaunchlong); // makes the latitude text box show up
-
 		helpBuilder.setPositiveButton("Add new flight", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				mDbHelper.newFlight();
@@ -266,8 +243,10 @@ public class umainehabappActivity extends Activity {
 				 // Do nothing
 			}
 		});
-		 
-		 // Remember, create doesn't show the dialog
+		
+		
+		helpBuilder.setView(layout);
+		// Remember, create doesn't show the dialog
 		AlertDialog helpDialog = helpBuilder.create();
 		helpDialog.show();
 	}

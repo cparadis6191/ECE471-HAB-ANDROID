@@ -31,28 +31,24 @@ public final class R {
         public static final int HeliumCalc=0x7f060005;
         public static final int LinearLayout1=0x7f060001;
         public static final int ascentrate=0x7f060007;
-        public static final int btnCancelAddFlight=0x7f060016;
         public static final int btnConfirmAddFlight=0x7f060011;
         public static final int btnNF=0x7f06000e;
         public static final int btndeleteFlight=0x7f06000d;
         public static final int btnhelium=0x7f06000a;
         public static final int btnmap=0x7f06000b;
         public static final int burst=0x7f060008;
-        public static final int editTextlaunchlat=0x7f060015;
-        public static final int editTextlaunchlong=0x7f060014;
-        public static final int frameLayout1=0x7f060017;
+        public static final int editTextlaunchlat=0x7f060013;
+        public static final int editTextlaunchlong=0x7f060012;
         public static final int habhub=0x7f06000c;
         public static final int heliumspinner=0x7f060004;
-        public static final int launchlat=0x7f060012;
-        public static final int launchlong=0x7f060013;
-        public static final int mainlayout=0x7f060018;
-        public static final int mapview=0x7f060019;
+        public static final int mainlayout=0x7f060014;
+        public static final int mapview=0x7f060015;
         public static final int necklift=0x7f060006;
         public static final int newflightRelativeLayout=0x7f060010;
         public static final int payloadweight=0x7f060002;
         public static final int relativeLayoutMain=0x7f060009;
         public static final int spinnerFN=0x7f06000f;
-        public static final int text1=0x7f06001a;
+        public static final int text1=0x7f060016;
         public static final int webview=0x7f060000;
     }
     public static final class layout {

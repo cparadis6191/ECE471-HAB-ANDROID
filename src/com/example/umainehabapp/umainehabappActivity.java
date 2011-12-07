@@ -7,17 +7,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+
 import org.apache.http.util.ByteArrayBuffer;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
@@ -75,7 +82,6 @@ public class umainehabappActivity extends Activity {
 	    	public void onClick(View v) {
 	    		showDeleteFlightConfirmation();
 	    		
-
 	    	}});
 	
 
@@ -129,41 +135,41 @@ public class umainehabappActivity extends Activity {
 	public void DownloadFromUrl(String KMLURL, String fileName) {  //this is the downloader method
 		final String PATH = "/data/data/com.example.umainehabapp/";  //put the downloaded file here
 	    try {
-	            URL url = new URL(KMLURL); //you can write here any link
-	            File file = new File(PATH + fileName);
-
-	            long startTime = System.currentTimeMillis();
-	            Log.d("KMLDownloader", "download begining");
-	            Log.d("KMLDownloader", "download url:" + url);
-	            Log.d("KMLDownloader", "downloaded file name:" + fileName);
-	            /* Open a connection to that URL. */
-	            URLConnection ucon = url.openConnection();
-
-	            /*
-	             * Define InputStreams to read from the URLConnection.
-	             */
-	            InputStream is = ucon.getInputStream();
-	            BufferedInputStream bis = new BufferedInputStream(is);
-
-	            /*
-	             * Read bytes to the Buffer until there is nothing more to read(-1).
-	             */
-	            ByteArrayBuffer baf = new ByteArrayBuffer(50);
-	            int current = 0;
-	            while ((current = bis.read()) != -1) {
-	                    baf.append((byte) current);
-	            }
-	            
-	            baf.toByteArray();
-	            
-	            /* Convert the Bytes read to a String. */
-	            FileOutputStream fos = new FileOutputStream(file);
-	            
-	            fos.write(baf.toByteArray());
-	            fos.close();
-	            Log.d("KMLDownloader", "download ready in"
-	                            + ((System.currentTimeMillis() - startTime) / 1000)
-	                            + " sec");
+			URL url = new URL(KMLURL); //you can write here any link
+			File file = new File(PATH + fileName);
+			
+			long startTime = System.currentTimeMillis();
+			Log.d("KMLDownloader", "download begining");
+			Log.d("KMLDownloader", "download url:" + url);
+			Log.d("KMLDownloader", "downloaded file name:" + fileName);
+			/* Open a connection to that URL. */
+			URLConnection ucon = url.openConnection();
+			
+			/*
+			 * Define InputStreams to read from the URLConnection.
+			 */
+			InputStream is = ucon.getInputStream();
+			BufferedInputStream bis = new BufferedInputStream(is);
+			
+			/*
+			 * Read bytes to the Buffer until there is nothing more to read(-1).
+			 */
+			ByteArrayBuffer baf = new ByteArrayBuffer(50);
+			int current = 0;
+			while ((current = bis.read()) != -1) {
+			        baf.append((byte) current);
+			}
+			
+			baf.toByteArray();
+			
+			/* Convert the Bytes read to a String. */
+			FileOutputStream fos = new FileOutputStream(file);
+			
+			fos.write(baf.toByteArray());
+			fos.close();
+			Log.d("KMLDownloader", "download ready in"
+			+ ((System.currentTimeMillis() - startTime) / 1000)
+				+ " sec");
 
 	    } catch (IOException e) {
 	            Log.d("KMLDownloader", "Error: " + e);
@@ -172,71 +178,97 @@ public class umainehabappActivity extends Activity {
 	
 	
 	public void showDeleteFlightConfirmation() { // shows a pop up confirmation dialog
-		 AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
-		 helpBuilder.setTitle("Delete Flight");
-		 helpBuilder.setMessage("Are you sure you want to delete the current flight record?");
-		 
-		 helpBuilder.setPositiveButton("Yes",
-		   new DialogInterface.OnClickListener() {
-
-		    public void onClick(DialogInterface dialog, int which) {
-	    		mDbHelper.deleteFlight(getspnFNvalue());
-	    		populatespnFlightNumber();
-		     // Do nothing but close the dialog
+		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+		helpBuilder.setTitle("Delete Flight");
+		helpBuilder.setMessage("Are you sure you want to delete the current flight record?");
+	 
+		helpBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				mDbHelper.deleteFlight(getspnFNvalue());
+				populatespnFlightNumber();
+				// Do nothing but close the dialog
 		    }
-		   });
-
-		 helpBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-		  @Override
-		  public void onClick(DialogInterface dialog, int which) {
-		   // Do nothing
-		  }
-		 });
+		});
+	
+		helpBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() { // don't delete flight
+			public void onClick(DialogInterface dialog, int which) {
+				 // Do nothing
+			}
+		});
 		 
 		 
 		 // Remember, create doesn't show the dialog
-		 AlertDialog helpDialog = helpBuilder.create();
-		 helpDialog.show();
-
+		AlertDialog helpDialog = helpBuilder.create();
+		helpDialog.show();
+	
 		}
 	
 	public void showAddFlightDialog() { // shows an add flight dialog
+		final Dialog helpBuilder = new Dialog(this);
+		
+		helpBuilder.setCanceledOnTouchOutside(true);
+		helpBuilder.setCancelable(true); // cancelable with back button
+		
+		helpBuilder.setTitle("Please supply additional info");
+		
+	   	helpBuilder.setContentView(R.layout.newflight);
+
+		final EditText editLaunchLat = (EditText) findViewById(R.id.editTextlaunchlat); // makes the latitude text box show up
+		final EditText editLaunchLong = (EditText) findViewById(R.id.editTextlaunchlong); // makes the latitude text box show up
+		
+	    final Button btnConfirm= (Button) helpBuilder.findViewById(R.id.btnConfirmAddFlight);
+	    btnConfirm.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View v) {
+				mDbHelper.newFlight(); // add new flight to the database
+			  	populatespnFlightNumber(); // repopulate the spinner to add the new flight
+			  	
+			  	helpBuilder.dismiss();
+			}
+	    });
+	    
+	    final Button btnCancel= (Button) helpBuilder.findViewById(R.id.btnCancelAddFlight);
+	    btnCancel.setOnClickListener(new View.OnClickListener(){
+			public void onClick(View v) {
+				helpBuilder.dismiss();
+			}
+	    });
+   	 
+   	 helpBuilder.show();
+
+   	}
+	
+	public void showAddFlightDialog2() { // shows an add flight dialog
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
-		helpBuilder.setTitle("New Flight");
-		helpBuilder.setMessage("Please supply some additional information:");
 		
-		final EditText editLaunchLat = new EditText(this);
-		editLaunchLat.setSingleLine();
-		editLaunchLat.setText("");
-		editLaunchLat.setHint("Launch Latitude...");
-		helpBuilder.setView(editLaunchLat);
+		//LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//LinearLayout ll = (LinearLayout) this.findViewById(R.id.newflightRelativeLayout);
+		
+        //View item = inflater.inflate(R.layout.newflight, null);
+        //EditText x = (EditText) item.findViewById(R.id.editTextlaunchlat);
+        //ll.addView(item,ViewGroup.LayoutParams.WRAP_CONTENT);
+		
+		helpBuilder.setTitle("Add New Flight");
+		helpBuilder.setMessage("Please provide some additional information for this new flight");
 		 
-		final EditText editLaunchLong = new EditText(this);
-		editLaunchLong.setSingleLine();
-		editLaunchLong.setText("");
-		editLaunchLong.setHint("Launch Longitude...");
-		helpBuilder.setView(editLaunchLong);
-		
+		final EditText editLaunchLat = (EditText) findViewById(R.id.editTextlaunchlat); // makes the latitude text box show up
+		final EditText editLaunchLong = (EditText) findViewById(R.id.editTextlaunchlong); // makes the latitude text box show up
+
 		helpBuilder.setPositiveButton("Add new flight", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				mDbHelper.newFlight();
-			  	populatespnFlightNumber();
-				 // Do nothing but close the dialog
-			}
+				populatespnFlightNumber();
+				// Do nothing but close the dialog
+		   }
 		});
-		
-		
-		helpBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			  // Do nothing
-			}
-		});
-   	 
-   	 // Remember, create doesn't show the dialog
-   	 AlertDialog helpDialog = helpBuilder.create();
-   	 helpDialog.show();
 
-   	}
+		helpBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { // don't delete flight
+			public void onClick(DialogInterface dialog, int which) {
+				 // Do nothing
+			}
+		});
+		 
+		 // Remember, create doesn't show the dialog
+		AlertDialog helpDialog = helpBuilder.create();
+		helpDialog.show();
+	}
 }

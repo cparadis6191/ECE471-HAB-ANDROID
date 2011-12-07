@@ -32,6 +32,8 @@ public class pathingDatabase {
     public final static String DATABASE_TABLE1 = "payload_data"; // table containing general flight data
     public final static String KEY_ROWID = "_id"; // unique number
     public final static String FLIGHT_NUMBER = "flight_number";
+    public final static String LAUNCH_LONG = "launch_longitude";
+    public final static String LAUNCH_LAT = "launch_latitude";
     public final static String PAYLOAD_WEIGHT = "weight";
     public final static String ASCENT_RATE = "ascent_rate";
     public final static String NECK_LIFT = "neck_LIFT"; // "counterbalance" weight when filling the balloon
@@ -48,7 +50,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 80; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 84; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -56,6 +58,8 @@ public class pathingDatabase {
     		KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + // this should correspond to the KEY_ROWID of table 1
     		FLIGHT_NUMBER + " INTEGER, " +
     		PAYLOAD_WEIGHT + " DOUBLE, " + 
+    		LAUNCH_LONG + " DOUBLE, " +
+    		LAUNCH_LAT + " DOUBLE, " +
     		ASCENT_RATE + " DOUBLE, " + 
     		BURST_ALTITUDE + " DOUBLE, " +
     		NECK_LIFT + " DOUBLE, " +
@@ -154,12 +158,8 @@ public class pathingDatabase {
     	return mDb.query(DATABASE_TABLE1, new String[] {ASCENT_RATE, NECK_LIFT, BURST_ALTITUDE}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
     }
     
-    public void setFlightInfo(String launchlat, String launchlong) {
-    	
-    }
     
-
-	public void newFlight() { //starts a new flight, adds a new unique record to payload_data
+	public void newFlight(String launchlong, String launchlat) { //starts a new flight, adds a new unique record to payload_data
 		ContentValues initialValues = new ContentValues();
 		Cursor cur = fetchFlightNumbers();
 		
@@ -170,6 +170,8 @@ public class pathingDatabase {
 			Time now = new Time(); //gets the current time
 			now.setToNow();
 			
+			initialValues.put(LAUNCH_LONG, launchlong);
+			initialValues.put(LAUNCH_LAT, launchlat);
 			initialValues.put(TIME, now.toString());
 			mDb.insert(DATABASE_TABLE1, null, initialValues); //inserts the current time to the database
 	}
@@ -182,7 +184,7 @@ public class pathingDatabase {
     	mDb.update(DATABASE_TABLE1, initialValues, KEY_ROWID + " = " + flightnumber, null);
     	
     	if (!fetchFlightNumbers().moveToLast()) {
-       		newFlight();
+       		newFlight("0.0", "0.0");
     	}
     }
     

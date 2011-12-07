@@ -28,8 +28,8 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     int selection;
     String launchdiameter;
     NumberFormat nf = NumberFormat.getInstance();
-	double  freeliftkg,freeliftn, acentrate, burstheight, burstvolume, grosslift,balloonsize,area,neckliftdub;
-    double launchvolumenum,payloadnum,launchdiameternum,burstdiameter,burstvolumeratio,totallift,l1,l2,launchdiameterf;
+	double freeliftkg, freeliftn, acentrate, burstheight, burstvolume, grosslift, balloonsize, area, neckliftdub;
+    double launchvolumenum, payloadnum, launchdiameternum, burstdiameter, burstvolumeratio, totallift, l1, l2, launchdiameterf;
 	String launchvolume;
     String payload;
     double[] cdarray = {.25, .25, .25, .25, .25, .3, .3, .3, .3, .25, .25, .25, .25};
@@ -37,8 +37,8 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
     double[] balloonsizearray = {200,300,350,450,500,600,700,800,1000,1200,1500,2000,3000};
     double[] launchdiameterarray = {1.18872, 1.24968, 1.28016, 1.34112, 1.3716, 1.43256, 1.49352, 1.52400, 1.58496, 1.8288, 1.88976, 1.9812, 2.16408};
     private Button calculate;
-	private EditText payloadtext,diameter;
-    private TextView necklift,Ascentrate,Burstheight;
+	private EditText payloadtext, diameter;
+    private TextView necklift, Ascentrate, Burstheight;
     
 
 	
@@ -47,14 +47,13 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.helium);
         
-
-        
-        payloadtext= (EditText) findViewById(R.id.payloadweight);
-        diameter= (EditText) findViewById(R.id.BalloonDiameter);
+        payloadtext = (EditText) findViewById(R.id.payloadweight);
+        diameter = (EditText) findViewById(R.id.BalloonDiameter);
         calculate = (Button) findViewById(R.id.HeliumCalc);
         necklift = (TextView) findViewById(R.id.necklift);
-        Ascentrate= (TextView) findViewById(R.id.ascentrate);
-        Burstheight= (TextView) findViewById(R.id.burst);
+        Ascentrate = (TextView) findViewById(R.id.ascentrate);
+        Burstheight = (TextView) findViewById(R.id.burst);
+        
         calculate.setOnClickListener(this);
         payloadtext.setOnKeyListener(this);
         diameter.setOnKeyListener(this);

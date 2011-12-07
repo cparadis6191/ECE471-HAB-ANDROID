@@ -32,8 +32,6 @@ public class umainehabappActivity extends Activity {
 	private pathingDatabase mDbHelper = new pathingDatabase(this); //creates a database helper object to be used in accessing the database
 
 	/** Called when the activity is first created. */
-
-	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,10 +64,10 @@ public class umainehabappActivity extends Activity {
 	    btnNewFlight.getBackground().setAlpha(175);
 	    btnNewFlight.setOnClickListener(new View.OnClickListener() {
 	    	public void onClick(View v) {
-	    		showAddFlightDialog2();
+	    		showAddFlightDialog();
 	    		
 	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=2011120712&FCST=12&POINT=none&LAT=46&LON=45&TOP=30000&OUTPUT=list&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
-	    		DownloadFromUrl(URL, "blah.txt");
+	    		//DownloadFromUrl(URL, "blah.txt");
 			}
 		});
 	    
@@ -213,28 +211,28 @@ public class umainehabappActivity extends Activity {
 		 // Remember, create doesn't show the dialog
 		AlertDialog helpDialog = helpBuilder.create();
 		helpDialog.show();
-	
 		}
 
 	
-	public void showAddFlightDialog2() { // shows an add flight dialog
+	public void showAddFlightDialog() { // shows an add flight dialog
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
-		
-		Context mContext = getApplicationContext();
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.newflight, (ViewGroup) findViewById(R.id.editTextlaunchlat));
-		
-		final EditText editTextlong = (EditText) layout.findViewById(R.id.editTextlaunchlat);
-		final EditText editTextlat = (EditText) layout.findViewById(R.id.editTextlaunchlat);
 
 		helpBuilder.setTitle("Add New Flight");
 		helpBuilder.setMessage("Please provide some additional information for this new flight");
-		 
+		
+		final Context mContext = getApplicationContext();
+		final LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+		final View layout = inflater.inflate(R.layout.newflight, (ViewGroup) findViewById(R.id.editTextlaunchlat));
+		
+		helpBuilder.setView(layout);
+		
+		final EditText editTextlong = (EditText) layout.findViewById(R.id.editTextlaunchlong);
+		final EditText editTextlat = (EditText) layout.findViewById(R.id.editTextlaunchlat);
+		
 		helpBuilder.setPositiveButton("Add new flight", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				mDbHelper.newFlight();
+				mDbHelper.newFlight(editTextlong.getText().toString(), editTextlat.getText().toString());
 				populatespnFlightNumber();
-				// Do nothing but close the dialog
 		   }
 		});
 
@@ -244,8 +242,6 @@ public class umainehabappActivity extends Activity {
 			}
 		});
 		
-		
-		helpBuilder.setView(layout);
 		// Remember, create doesn't show the dialog
 		AlertDialog helpDialog = helpBuilder.create();
 		helpDialog.show();

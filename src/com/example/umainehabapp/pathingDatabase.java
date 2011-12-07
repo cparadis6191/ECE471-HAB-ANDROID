@@ -48,7 +48,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 79; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 80; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -152,6 +152,10 @@ public class pathingDatabase {
     
     public Cursor getpayloadData(String flightnumber) {
     	return mDb.query(DATABASE_TABLE1, new String[] {ASCENT_RATE, NECK_LIFT, BURST_ALTITUDE}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
+    }
+    
+    public void setFlightInfo(String launchlat, String launchlong) {
+    	
     }
     
 

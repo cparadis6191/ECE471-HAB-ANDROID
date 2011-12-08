@@ -50,7 +50,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 89; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 94; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -73,6 +73,7 @@ public class pathingDatabase {
     		TRACKED_LAT + " DOUBLE, " + // tracked gps data
     		PREDICTED_LONG + " DOUBLE, " + // predicted gps data
     		PREDICTED_LAT + " DOUBLE, " + // predicted gps data
+    		PREDICTED_ALT + " DOUBLE, " +
     		TIME + " TEXT);";
     		
     
@@ -154,6 +155,17 @@ public class pathingDatabase {
     }
     
     
+    public void setpredictedGPS(String flightnumber, String predictedlong, String predictedlat, String altitude) {
+    	ContentValues initialValues = new ContentValues();
+    	
+    	initialValues.put(PREDICTED_LONG, predictedlong);
+    	initialValues.put(PREDICTED_LAT, predictedlat);
+    	initialValues.put(PREDICTED_ALT, altitude);
+    	initialValues.put(KEY_ROWID, flightnumber);
+    	mDb.insert(DATABASE_TABLE2, null, initialValues);
+    }
+    
+    
     public Cursor getpayloadData(String flightnumber) {
     	return mDb.query(DATABASE_TABLE1, new String[] {ASCENT_RATE, NECK_LIFT, BURST_ALTITUDE}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
     }
@@ -200,7 +212,7 @@ public class pathingDatabase {
     
     
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers
-    	ContentValues initialValues = new ContentValues(); //adds some test cases to the database
+    	/*ContentValues initialValues = new ContentValues(); //adds some test cases to the database
 	    double weight = 45.0;
 	    initialValues.put(PREDICTED_LONG, weight);
 	    double weight1 = 45.1;
@@ -235,7 +247,7 @@ public class pathingDatabase {
 	    
 	    mDb.insert(DATABASE_TABLE2, null, initialValues1);
 	    mDb.insert(DATABASE_TABLE2, null, initialValues2);
-	    mDb.insert(DATABASE_TABLE2, null, initialValues);
+	    mDb.insert(DATABASE_TABLE2, null, initialValues);*/
     	
     	return mDb.query(DATABASE_TABLE2, new String[] {PREDICTED_LONG, PREDICTED_LAT, TRACKED_LONG, TRACKED_LAT}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
     	// picks the four columns based on the flight number

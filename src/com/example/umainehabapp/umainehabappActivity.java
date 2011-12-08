@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,9 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.http.util.ByteArrayBuffer;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -36,7 +35,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 public class umainehabappActivity extends Activity {
 	
@@ -50,6 +49,8 @@ public class umainehabappActivity extends Activity {
 	    setContentView(R.layout.mainview);
 	    
 	    mDbHelper.open(); //opens the database
+	    
+	    populatespnFlightNumber(); //populate the spinner
 	    
 	    final Button btnhelium = (Button) findViewById(R.id.btnhelium); //button with intent to helium activity
 	    btnhelium.getBackground().setAlpha(175);
@@ -79,9 +80,6 @@ public class umainehabappActivity extends Activity {
 			}
 		});
 	    
-	    
-	    populatespnFlightNumber(); //populate the spinner
-	    
 		final Button btndeleteFlight = (Button) findViewById(R.id.btndeleteFlight);
 		btndeleteFlight.getBackground().setAlpha(175);
 		btndeleteFlight.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +104,26 @@ public class umainehabappActivity extends Activity {
 	    		String FCST = "12";
 	    		
 	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=" + time + "&FCST=" + FCST + "&POINT=none&LAT=" + launchlat + "&LON=" + launchlong + "&TOP=" + burstalt + "&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
-	    		DownloadFromUrl(URL, "blah.txt");
+	    		String KML = DownloadFromUrl(URL, "blah.txt");
+	    		String CSV = "";
+	    		
+				try {
+					CSV = parseKML(KML);
+				} catch (ParserConfigurationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SAXException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if (!CSV.contentEquals("")) {
+					parseCSV(CSV);
+				}
+				
 	    	}});
 	}
 		
@@ -146,47 +163,8 @@ public class umainehabappActivity extends Activity {
 	}
 	
 	
-	void parseKML(String KML) throws ParserConfigurationException, SAXException, IOException{ 
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
-		DocumentBuilder db = dbf.newDocumentBuilder(); 
-		Document doc = db.parse(new InputSource(new StringReader(KML))); 
-		// normalize the document 
-		doc.getDocumentElement().normalize(); 
-		// get the root node 
-		
-		Context context = getApplicationContext();
-		CharSequence text = "Hello toast!";
-		int duration = Toast.LENGTH_SHORT;
-
-		doc.getElementsByTagName("coordinates");
-		
-		NodeList Document = doc.getChildNodes(); 
-		Node Placemark = Document.item(3);
-		//Node Linestring = Placemark.getChildNodes().item(0);
-		//Node Coordinates = Linestring.getChildNodes().item(0);
-		//Coordinates.getNodeValue();
-//		String text1 = Placemark.getNodeValue();
-		
-		Toast toast = Toast.makeText(context, doc.getElementsByTagName("coordinates").item(0).getTextContent(), duration);
-		toast.show();
-		
-		// the node has three child nodes 
-		//for (int i = 0; i < node.getChildNodes().getLength(); i++) { 
-			/*Node temp=node.getChildNodes().item(i); 
-			if(temp.getNodeName().equalsIgnoreCase("firstname")){ 
-				person.firstName=temp.getTextContent(); 
-			}else if(temp.getNodeName().equalsIgnoreCase("lastname")){ 
-				person.lastName=temp.getTextContent(); 
-			}else if(temp.getNodeName().equalsIgnoreCase("age")){ 
-				person.age=Integer.parseInt(temp.getTextContent()); 
-			} 
-		} */
-		//Log.e("person", person.firstName + " " + person.lastName + "" + String.valueOf(person.age));
-	}
-
-	
-	
-	public void DownloadFromUrl(String KMLURL, String fileName) {  //this is the downloader method
+	public String DownloadFromUrl(String KMLURL, String fileName) {  //this is the downloader method
+		String RAW_KML = "";
 		final String PATH = "/data/data/com.example.umainehabapp/";  //put the downloaded file here
 	    try {
 			URL url = new URL(KMLURL); //you can write here any link
@@ -215,7 +193,7 @@ public class umainehabappActivity extends Activity {
 			}
 			
 			baf.toByteArray();
-			String blah = new String(baf.toByteArray());
+			RAW_KML = new String(baf.toByteArray());
 			
 			/* Convert the Bytes read to a String. */
 			FileOutputStream fos = new FileOutputStream(file);
@@ -225,29 +203,44 @@ public class umainehabappActivity extends Activity {
 			Log.d("KMLDownloader", "download ready in"
 			+ ((System.currentTimeMillis() - startTime) / 1000)
 				+ " sec");
-			
-			/*Context context = getApplicationContext();
-			CharSequence text = "Hello toast!";
-			int duration = Toast.LENGTH_SHORT;
-
-			Toast toast = Toast.makeText(context, blah, duration);
-			toast.show();*/
-			
-			try {
-				parseKML(blah);
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 	    } catch (IOException e) {
 	            Log.d("KMLDownloader", "Error: " + e);
 	    }
+	    
+		return RAW_KML;
 	}
 	
+	
+	String parseKML(String KML) throws ParserConfigurationException, SAXException, IOException { 
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+		DocumentBuilder db = dbf.newDocumentBuilder(); 
+		Document doc = db.parse(new InputSource(new StringReader(KML))); 
+		// normalize the document 
+		doc.getDocumentElement().normalize(); 
+		// get the root node
+		NodeList Document = doc.getElementsByTagName("coordinates");
+		
+		return Document.item(0).getChildNodes().item(0).getNodeValue();
+	}
+	
+	
+	void parseCSV(String CSV) {
+		TextView debug = (TextView) findViewById(R.id.debug);
+				
+		StringTokenizer tokens = new StringTokenizer(CSV, "\n");
+		while (tokens.hasMoreTokens()) {
+			StringTokenizer temp = new StringTokenizer(tokens.nextToken(), ",");
+			if (temp.countTokens() == 3) {
+				mDbHelper.setpredictedGPS(getspnFNvalue(), temp.nextToken(), temp.nextToken(), temp.nextToken());
+			}	
+			tokens.nextToken();
+			//if (tokens.hasMoreTokens()) {
+			//	tokens.nextToken();
+			//}
+		}
+	}
+
 	
 	public void showDeleteFlightConfirmation() { // shows a pop up confirmation dialog
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);

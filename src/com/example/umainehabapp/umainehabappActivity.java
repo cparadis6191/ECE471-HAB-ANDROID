@@ -101,7 +101,7 @@ public class umainehabappActivity extends Activity {
 	    		String launchlat = cur.getString(cur.getColumnIndex(pathingDatabase.LAUNCH_LAT));
 	    		String burstalt = cur.getString(cur.getColumnIndex(pathingDatabase.BURST_ALTITUDE));
 	    		String time = "2011120712";
-	    		String FCST = "12";
+	    		String FCST = "48";
 	    		
 	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=" + time + "&FCST=" + FCST + "&POINT=none&LAT=" + launchlat + "&LON=" + launchlong + "&TOP=" + burstalt + "&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
 	    		String KML = DownloadFromUrl(URL, "blah.txt");

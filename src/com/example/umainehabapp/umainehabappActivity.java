@@ -5,10 +5,21 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.http.util.ByteArrayBuffer;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -65,11 +76,9 @@ public class umainehabappActivity extends Activity {
 	    btnNewFlight.setOnClickListener(new View.OnClickListener() {
 	    	public void onClick(View v) {
 	    		showAddFlightDialog();
-	    		
-	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=2011120712&FCST=12&POINT=none&LAT=46&LON=45&TOP=30000&OUTPUT=list&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
-	    		//DownloadFromUrl(URL, "blah.txt");
 			}
 		});
+	    
 	    
 	    populatespnFlightNumber(); //populate the spinner
 	    
@@ -84,12 +93,20 @@ public class umainehabappActivity extends Activity {
 
 		final Button habhubbutton = (Button) findViewById(R.id.habhub);
 		habhubbutton.getBackground().setAlpha(175);
- 
-
 		habhubbutton.setOnClickListener(new View.OnClickListener() {
 	    	public void onClick(View v) {
-	    		Intent intenttohabhub = new Intent(umainehabappActivity.this, habhub.class);
-	    		startActivity(intenttohabhub);
+	    		Cursor cur = mDbHelper.fetchForPrediction(getspnFNvalue());
+	    		startManagingCursor(cur);
+	    		cur.moveToFirst();
+	    		
+	    		String launchlong = cur.getString(cur.getColumnIndex(pathingDatabase.LAUNCH_LONG));
+	    		String launchlat = cur.getString(cur.getColumnIndex(pathingDatabase.LAUNCH_LAT));
+	    		String burstalt = cur.getString(cur.getColumnIndex(pathingDatabase.BURST_ALTITUDE));
+	    		String time = "2011120712";
+	    		String FCST = "12";
+	    		
+	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=" + time + "&FCST=" + FCST + "&POINT=none&LAT=" + launchlat + "&LON=" + launchlong + "&TOP=" + burstalt + "&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
+	    		DownloadFromUrl(URL, "blah.txt");
 	    	}});
 	}
 		
@@ -129,10 +146,44 @@ public class umainehabappActivity extends Activity {
 	}
 	
 	
-	public void KMLParser(String KML) {
+	void parseKML(String KML) throws ParserConfigurationException, SAXException, IOException{ 
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(); 
+		DocumentBuilder db = dbf.newDocumentBuilder(); 
+		Document doc = db.parse(new InputSource(new StringReader(KML))); 
+		// normalize the document 
+		doc.getDocumentElement().normalize(); 
+		// get the root node 
 		
+		Context context = getApplicationContext();
+		CharSequence text = "Hello toast!";
+		int duration = Toast.LENGTH_SHORT;
+
+		doc.getElementsByTagName("coordinates");
 		
+		NodeList Document = doc.getChildNodes(); 
+		Node Placemark = Document.item(3);
+		//Node Linestring = Placemark.getChildNodes().item(0);
+		//Node Coordinates = Linestring.getChildNodes().item(0);
+		//Coordinates.getNodeValue();
+//		String text1 = Placemark.getNodeValue();
+		
+		Toast toast = Toast.makeText(context, doc.getElementsByTagName("coordinates").item(0).getTextContent(), duration);
+		toast.show();
+		
+		// the node has three child nodes 
+		//for (int i = 0; i < node.getChildNodes().getLength(); i++) { 
+			/*Node temp=node.getChildNodes().item(i); 
+			if(temp.getNodeName().equalsIgnoreCase("firstname")){ 
+				person.firstName=temp.getTextContent(); 
+			}else if(temp.getNodeName().equalsIgnoreCase("lastname")){ 
+				person.lastName=temp.getTextContent(); 
+			}else if(temp.getNodeName().equalsIgnoreCase("age")){ 
+				person.age=Integer.parseInt(temp.getTextContent()); 
+			} 
+		} */
+		//Log.e("person", person.firstName + " " + person.lastName + "" + String.valueOf(person.age));
 	}
+
 	
 	
 	public void DownloadFromUrl(String KMLURL, String fileName) {  //this is the downloader method
@@ -175,12 +226,22 @@ public class umainehabappActivity extends Activity {
 			+ ((System.currentTimeMillis() - startTime) / 1000)
 				+ " sec");
 			
-			Context context = getApplicationContext();
+			/*Context context = getApplicationContext();
 			CharSequence text = "Hello toast!";
 			int duration = Toast.LENGTH_SHORT;
 
 			Toast toast = Toast.makeText(context, blah, duration);
-			toast.show();
+			toast.show();*/
+			
+			try {
+				parseKML(blah);
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 	    } catch (IOException e) {
 	            Log.d("KMLDownloader", "Error: " + e);

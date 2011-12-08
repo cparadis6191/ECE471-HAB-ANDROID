@@ -36,7 +36,7 @@ public class pathingDatabase {
     public final static String LAUNCH_LAT = "launch_latitude";
     public final static String PAYLOAD_WEIGHT = "weight";
     public final static String ASCENT_RATE = "ascent_rate";
-    public final static String NECK_LIFT = "neck_LIFT"; // "counterbalance" weight when filling the balloon
+    public final static String NECK_LIFT = "neck_lift"; // "counterbalance" weight when filling the balloon
     public final static String BURST_ALTITUDE = "burst_altitude";
     public final static String DATE = "date";
     
@@ -50,7 +50,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 84; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 89; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -192,6 +192,11 @@ public class pathingDatabase {
     public Cursor fetchFlightNumbers() { //fetches all flight numbers
     	return mDb.query(DATABASE_TABLE1, new String[] {KEY_ROWID, FLIGHT_NUMBER}, FLIGHT_NUMBER + " != '-1'", null, null, null, KEY_ROWID + " DESC");
     }
+    
+    
+    public Cursor fetchForPrediction(String flightnumber) { //fetches all flight numbers
+    	return mDb.query(DATABASE_TABLE1, new String[] {LAUNCH_LONG, LAUNCH_LAT, BURST_ALTITUDE}, KEY_ROWID + " = " + flightnumber, null, null, null, null);
+    }    
     
     
     public Cursor fetchGPSData(String flightnumber) { //fetches all flight numbers

@@ -2,7 +2,7 @@
 <resources>
 	
 	<!-- General project strings -->
-    <string name="app_name">umainehabapp</string>
+    <string name="app_name">UMaine High-Altitude Ballooning</string>
     
     <!-- Strings for helium activity -->
     <string name="hintascentrate">Target Ascent Rate</string>

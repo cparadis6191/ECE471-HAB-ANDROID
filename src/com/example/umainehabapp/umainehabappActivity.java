@@ -22,10 +22,12 @@ import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,7 +37,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class umainehabappActivity extends Activity {
 	
@@ -92,7 +93,13 @@ public class umainehabappActivity extends Activity {
 		final Button habhubbutton = (Button) findViewById(R.id.habhub);
 		habhubbutton.getBackground().setAlpha(175);
 		habhubbutton.setOnClickListener(new View.OnClickListener() {
+			String KML = "";
+			String flightnumber = getspnFNvalue();
 	    	public void onClick(View v) {
+	    		final ProgressDialog dialog = ProgressDialog.show(v.getContext(), "", 
+                        "Downloading from server. Please wait...", true);
+	    		dialog.show();
+	    		
 	    		Cursor cur = mDbHelper.fetchForPrediction(getspnFNvalue());
 	    		startManagingCursor(cur);
 	    		cur.moveToFirst();
@@ -102,29 +109,34 @@ public class umainehabappActivity extends Activity {
 	    		String burstalt = cur.getString(cur.getColumnIndex(pathingDatabase.BURST_ALTITUDE));
 	    		String time = "2011120712";
 	    		String FCST = "48";
-	    		
-	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=" + time + "&FCST=" + FCST + "&POINT=none&LAT=" + launchlat + "&LON=" + launchlong + "&TOP=" + burstalt + "&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
-	    		String KML = DownloadFromUrl(URL, "blah.txt");
-	    		String CSV = "";
-	    		
-				try {
-					CSV = parseKML(KML);
-				} catch (ParserConfigurationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SAXException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				if (!CSV.contentEquals("")) {
-					parseCSV(CSV);
-				}
-				
+
+	    		final String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=" + time + "&FCST=" + FCST + "&POINT=none&LAT=" + launchlat + "&LON=" + launchlong + "&TOP=" + burstalt + "&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
+	    		new Thread(new Runnable(){
+				public void run(){
+					KML = DownloadFromUrl(URL, "predicted.kml");
+	
+		    		String CSV = "";
+		    		
+					try {
+						CSV = parseKML(KML);
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SAXException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					if (!CSV.contentEquals("")) {
+						parseCSV(CSV, flightnumber);
+					}
+					dialog.dismiss();
+				}}).start();
 	    	}});
+		//mDbHelper.close();
 	}
 		
 		
@@ -225,14 +237,14 @@ public class umainehabappActivity extends Activity {
 	}
 	
 	
-	void parseCSV(String CSV) {
+	void parseCSV(String CSV, String flightnumber) {
 
 				
 		StringTokenizer tokens = new StringTokenizer(CSV, "\n");
 		while (tokens.hasMoreTokens()) {
 			StringTokenizer temp = new StringTokenizer(tokens.nextToken(), ",");
 			if (temp.countTokens() == 3) {
-				mDbHelper.setpredictedGPS(getspnFNvalue(), temp.nextToken(), temp.nextToken(), temp.nextToken());
+				mDbHelper.setpredictedGPS(flightnumber, temp.nextToken(), temp.nextToken(), temp.nextToken());
 			}	
 			tokens.nextToken();
 			//if (tokens.hasMoreTokens()) {
@@ -304,4 +316,35 @@ public class umainehabappActivity extends Activity {
 		AlertDialog helpDialog = helpBuilder.create();
 		helpDialog.show();
 	}
+	
+	/*private class DownloadPredicted extends AsyncTask<Void, Void, String> {
+		final ProgressDialog dialog = ProgressDialog.show(getApplicationContext(), "", "Downloading from server. Please wait...", true);
+
+	    protected void onPreExecute() {
+    		dialog.show();
+	    }
+
+	    protected String doInBackground(Void... unused) {
+    		Cursor cur = mDbHelper.fetchForPrediction(getspnFNvalue());
+    		startManagingCursor(cur);
+    		cur.moveToFirst();
+    		
+    		String launchlong = cur.getString(cur.getColumnIndex(pathingDatabase.LAUNCH_LONG));
+    		String launchlat = cur.getString(cur.getColumnIndex(pathingDatabase.LAUNCH_LAT));
+    		String burstalt = cur.getString(cur.getColumnIndex(pathingDatabase.BURST_ALTITUDE));
+    		String time = "2011120712";
+    		String FCST = "48";
+    		
+    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=" + time + "&FCST=" + FCST + "&POINT=none&LAT=" + launchlat + "&LON=" + launchlong + "&TOP=" + burstalt + "&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
+    		String KML = DownloadFromUrl(URL, "blah.txt");
+
+	        return KML;
+	    }
+
+	    protected void onPostExecute(Void unused) {
+	        dialog.dismiss();
+	    }
+	  }*/
+	
+	
 }

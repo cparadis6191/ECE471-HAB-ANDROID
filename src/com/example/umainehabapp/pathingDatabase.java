@@ -50,7 +50,7 @@ public class pathingDatabase {
     public final static String TIME = "time_stamp";
 
     
-    public final static int DATABASE_VERSION = 96; // change this when updating methods and data structure
+    public final static int DATABASE_VERSION = 98; // change this when updating methods and data structure
     
     public final static String TABLE_CREATE1 = // payload_data
     		"CREATE TABLE " + DATABASE_TABLE1 + // creates table 2
@@ -155,7 +155,7 @@ public class pathingDatabase {
     }
     
     
-    public void setpredictedGPS(String flightnumber, String predictedlat, String predictedlong, String altitude) {
+    public void setpredictedGPS(String flightnumber, String predictedlong, String predictedlat, String altitude) {
     	ContentValues initialValues = new ContentValues();
     	
     	initialValues.put(PREDICTED_LONG, predictedlong);

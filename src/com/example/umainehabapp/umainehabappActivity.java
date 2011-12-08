@@ -101,7 +101,7 @@ public class umainehabappActivity extends Activity {
 	    		String launchlat = cur.getString(cur.getColumnIndex(pathingDatabase.LAUNCH_LAT));
 	    		String burstalt = cur.getString(cur.getColumnIndex(pathingDatabase.BURST_ALTITUDE));
 	    		String time = "2011120712";
-	    		String FCST = "12";
+	    		String FCST = "48";
 	    		
 	    		String URL = "http://weather.uwyo.edu/cgi-bin/balloon_traj?TIME=" + time + "&FCST=" + FCST + "&POINT=none&LAT=" + launchlat + "&LON=" + launchlong + "&TOP=" + burstalt + "&OUTPUT=kml&Submit=Submit&.cgifields=POINT&.cgifields=FCST&.cgifields=TIME&.cgifields=OUTPUT";
 	    		String KML = DownloadFromUrl(URL, "blah.txt");
@@ -269,7 +269,7 @@ public class umainehabappActivity extends Activity {
 
 	
 	public void showAddFlightDialog() { // shows an add flight dialog
-		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+		final AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
 
 		helpBuilder.setTitle("Add New Flight");
 		helpBuilder.setMessage("Please provide some additional information for this new flight");
@@ -286,8 +286,12 @@ public class umainehabappActivity extends Activity {
 		helpBuilder.setPositiveButton("Add new flight", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				mDbHelper.newFlight(editTextlong.getText().toString(), editTextlat.getText().toString());
-				populatespnFlightNumber();
-		   }
+				
+				if((Double.parseDouble(editTextlat.getText().toString()) > -85) || (Double.parseDouble(editTextlat.getText().toString()) < 85)) {     
+		            editTextlat.setError("Longitude must be between -85 and 85");
+		            helpBuilder.setCancelable(false);
+				}	else populatespnFlightNumber();
+			}
 		});
 
 		helpBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { // don't delete flight

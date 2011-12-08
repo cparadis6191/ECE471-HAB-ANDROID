@@ -106,7 +106,7 @@ public void onClick(View v) {
 			if(Double.isNaN(acentrate))
 			Ascentrate.setText("Balloon Configuration Not Possible");
 			else
-			Ascentrate.setText("Ascent Rate: "+acentratestring+" Meters/S");
+			Ascentrate.setText("Ascent Rate: " + acentratestring + " Meters/S");
 			
 			burstdiameter=burstdiameterarray[selection];
 			burstvolume=(((4.0/3.0)*Math.PI)*Math.pow(burstdiameter/2.0, 3));
@@ -116,7 +116,7 @@ public void onClick(View v) {
 			if(burstheight<0)
 			Burstheight.setText("Burstheight is less then 0");	
 			else	
-			Burstheight.setText("Burstheight: " +burstheightstring+" Meters");
+			Burstheight.setText("Burstheight: " + burstheightstring + " Meters");
 			
 			l1=.02905*(Math.PI/6.0);
 			launchdiameterf=launchdiameternum*3.280839895;

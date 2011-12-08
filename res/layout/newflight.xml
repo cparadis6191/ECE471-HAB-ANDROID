@@ -12,7 +12,7 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentTop="true"
 	        android:hint="Launch Longitude..."
-	        android:inputType="numberDecimal" >
+	        android:inputType="numberSigned|numberDecimal" >
 	
 	        <requestFocus />
 	    </EditText>
@@ -24,6 +24,6 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_below="@+id/editTextlaunchlong"
 	        android:hint="Launch Latitude..."
-	        android:inputType="numberDecimal" />
+	        android:inputType="numberSigned|numberDecimal" />
 	
 	</RelativeLayout>

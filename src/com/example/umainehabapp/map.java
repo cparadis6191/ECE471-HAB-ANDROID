@@ -49,8 +49,8 @@ public class map extends MapActivity {
 		if (cur.moveToFirst()) { // if the cursor is empty, skip this
 			do { //this section of code plots all predicted gps coords for a certain flight number
 				if (!(cur.isNull(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)) || cur.isNull(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)))) { // skips record if partial set **missing long or lat data
-			        GeoPoint predicted = new GeoPoint(1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT)),
-			        		1000000*cur.getInt(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG)));
+			        GeoPoint predicted = new GeoPoint((int) (1000000*cur.getDouble(cur.getColumnIndex(pathingDatabase.PREDICTED_LAT))),
+			        		(int) (1000000*cur.getDouble(cur.getColumnIndex(pathingDatabase.PREDICTED_LONG))));
 		
 			        OverlayItem overlayitem = new OverlayItem(predicted, "", "");
 			        

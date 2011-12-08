@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="Track and Predict" />
+            android:text="Plot Prediction" />
 
         <Button
             android:id="@+id/habhub"
@@ -29,7 +29,7 @@
             android:layout_alignLeft="@+id/btnmap"
             android:layout_alignParentRight="true"
             android:includeFontPadding="true"
-            android:text="Prediction Site" />
+            android:text="Fetch Predictions" />
 
         <Button
             android:id="@+id/btndeleteFlight"
@@ -53,15 +53,5 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/btndeleteFlight" />
-
-        <TextView
-            android:id="@+id/debug"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/spinnerFN"
-            android:layout_marginLeft="22dp"
-            android:layout_marginTop="66dp"
-            android:text="TextView" />
 
     </RelativeLayout>

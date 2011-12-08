@@ -64,7 +64,8 @@ public class heliumActivity extends Activity implements View.OnClickListener, On
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    spinner.setAdapter(adapter);
 	    spinner.setOnItemSelectedListener(new MyOnItemSelectedListener());
-    }
+	    
+	}
    
     public class MyOnItemSelectedListener implements OnItemSelectedListener {
     	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

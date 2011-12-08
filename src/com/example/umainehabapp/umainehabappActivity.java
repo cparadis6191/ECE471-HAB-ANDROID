@@ -226,7 +226,7 @@ public class umainehabappActivity extends Activity {
 	
 	
 	void parseCSV(String CSV) {
-		TextView debug = (TextView) findViewById(R.id.debug);
+
 				
 		StringTokenizer tokens = new StringTokenizer(CSV, "\n");
 		while (tokens.hasMoreTokens()) {
